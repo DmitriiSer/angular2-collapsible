@@ -2,10 +2,11 @@
 node_modules/*
 npm-debug.log
 
+# DO NOT IGNORE TYPESCRIPT FILES FOR NPM
 # TypeScript
-*.js
-*.map
-*.d.ts
+# *.js
+# *.map
+# *.d.ts
 
 # JetBrains
 .idea
@@ -24,6 +25,3 @@ Desktop.ini
 # Mac
 .DS_Store
 **/.DS_Store
-
-# Ngc generated files
-**/*.ngfactory.ts
