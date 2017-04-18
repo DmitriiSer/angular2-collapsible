@@ -2,6 +2,13 @@
 
 ## Installation
 
+Prerequisites:
+
+* @angular/animations
+```bash
+$ npm install @angular/animations --save
+```
+
 To install this library, run:
 
 ```bash
@@ -20,12 +27,13 @@ and then from your Angular `AppModule`:
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
 // Import your library
-import { CollapsibleListModule } from 'angular2-collapsible';
+import { CollapsibleModule } from 'angular2-collapsible';
 
 @NgModule({
   declarations: [
@@ -33,9 +41,9 @@ import { CollapsibleListModule } from 'angular2-collapsible';
   ],
   imports: [
     BrowserModule,
-
+    BrowserAnimationsModule,
     // Specify your library as an import
-    LibraryModule
+    CollapsibleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -50,7 +58,28 @@ Once your library is imported, you can use its components, directives and pipes 
 <h1>
   {{title}}
 </h1>
-<collapsible-list></collapsible-list>
+
+<collapsible-list [type]="'accordion'">
+  
+  <collapsible-list-item>
+    <collapsible-header class="waves-effect">
+      Item #1
+    </collapsible-header>
+    <collapsible-body [expanded]="false">
+      <p>Item #1 Body</p>
+    </collapsible-body>
+  </collapsible-list-item>
+
+  <collapsible-list-item>
+    <collapsible-header class="waves-effect">
+      Item #2
+    </collapsible-header>
+    <collapsible-body [expanded]="true">
+      <p>Item #2 Body</p>
+    </collapsible-body>
+  </collapsible-list-item>
+
+</collapsible-list>
 ```
 
 ## Development

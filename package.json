@@ -1,6 +1,6 @@
 {
   "name": "angular2-collapsible",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "description": "A working component replacing Materialize CSS collapsibles",
   "scripts": {
     "build": "ngc -p tsconfig.json",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": " "
+    "url": "https://github.com/DmitriiSer/angular2-collapsible"
   },
   "author": {
     "name": "Dmitrii Serikov",
@@ -26,8 +26,10 @@
   },
   "main": "./dist/index.js",
   "dependencies": {
+    "@angular/animations": "^4.0.0"
   },
   "devDependencies": {
+    "@angular/animations": "^4.0.0",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/compiler-cli": "^4.0.0",
