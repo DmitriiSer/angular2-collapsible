@@ -15,7 +15,6 @@ import { CollapsibleService } from './collapsible.service';
             display: table;
             position: relative;
             width: 100%;
-            margin: 0.5rem 0 1rem 0;
             border-collapse: collapse;
             border-top: 1px solid #ddd;
             border-right: 1px solid #ddd;
