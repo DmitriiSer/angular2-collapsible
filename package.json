@@ -1,7 +1,7 @@
 {
   "name": "angular2-collapsible",
-  "version": "0.0.14",
-  "description": "A working component replacing Materialize CSS collapsibles",
+  "version": "0.0.16",
+  "description": "Angular 2 / 4 Materialize CSS collapsible components",
   "scripts": {
     "build": "ngc -p tsconfig.json",
     "lint": "tslint --type-check --project tsconfig.json src/**/*.ts",
