@@ -136,9 +136,9 @@ OR for a table with collapsible rows
   </tbody>
 
 </collapsible-table>
+```
 
 ## Development
-```
 
 To generate all `*.js`, `*.js.map` and `*.d.ts` files:
 
