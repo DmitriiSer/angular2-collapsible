@@ -1,16 +1,25 @@
 {
   "name": "angular2-collapsible",
-  "version": "0.0.19",
+  "version": "0.0.20",
+  "dependencies": {
+    "@angular/animations": "^4.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/DmitriiSer/angular2-collapsible"
-  },
+  },  
   "author": {
     "name": "DmitriiSer",
     "email": "dmitrii.serikov@gmail.com"
   },
   "keywords": [
-    "angular"
+    "angular",
+    "angular2",
+    "angular 2",
+    "angular4",
+    "angular 4",
+    "collapsible",
+    "collapsibles",
   ],
   "license": "MIT",
   "bugs": {

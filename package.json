@@ -23,7 +23,7 @@
     "url": "https://github.com/DmitriiSer/angular2-collapsible/issues"
   },
   "devDependencies": {
-    "@angular/animations": "^4.0.2",
+    "@angular/animations": "^4.0.0",
     "@angular/common": "^4.0.0",
     "@angular/compiler": "^4.0.0",
     "@angular/compiler-cli": "^4.0.0",

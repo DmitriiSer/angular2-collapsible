@@ -1,5 +1,9 @@
 # angular2-collapsible
 
+An Angular 2 / 4 Materialize CSS collapsible components.
+
+## [Demo](https://dmitriiser.github.io/angular2-collapsible-example/)
+
 ## Installation
 
 Prerequisites:
