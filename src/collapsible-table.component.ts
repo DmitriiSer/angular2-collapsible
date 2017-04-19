@@ -28,17 +28,15 @@ import { CollapsibleService } from './collapsible.service';
             border-bottom: 1px solid #d0d0d0;
         }        
         
-        :host[bordered] /deep/ tr,
         :host[bordered] /deep/ collapsible-table-row,
-        :host[borderedHorizontally] /deep/ tr,
         :host[borderedHorizontally] /deep/ collapsible-table-row {
             border-bottom: 1px solid #d0d0d0;
         }
 
-        :host[bordered] /deep/ th,
-        :host[bordered] /deep/ td,
-        :host[borderedVertically] /deep/ th:not(:last-child),
-        :host[borderedVertically] /deep/ td:not(:last-child) {
+        :host[bordered] /deep/ collapsible-table-row th,
+        :host[bordered] /deep/ collapsible-table-row td,
+        :host[borderedVertically] /deep/ collapsible-table-row th:not(:last-child),
+        :host[borderedVertically] /deep/ collapsible-table-row td:not(:last-child) {
             border-right: 1px solid #d0d0d0;
         }
     `],

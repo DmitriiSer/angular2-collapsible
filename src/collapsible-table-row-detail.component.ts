@@ -35,8 +35,7 @@ import { Subject } from 'rxjs/Rx';
         }
 
         :host collapsible-body {
-            padding-top: 0;
-            padding-bottom: 0;
+            padding: 0;
         }
     `]
 })
