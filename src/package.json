@@ -1,0 +1,26 @@
+{
+  "name": "angular2-collapsible",
+  "version": "0.0.19",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DmitriiSer/angular2-collapsible"
+  },
+  "author": {
+    "name": "DmitriiSer",
+    "email": "dmitrii.serikov@gmail.com"
+  },
+  "keywords": [
+    "angular"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DmitriiSer/angular2-collapsible/issues"
+  },
+  "module": "angular2-collapsible.js",
+  "typings": "angular2-collapsible.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  }
+}
