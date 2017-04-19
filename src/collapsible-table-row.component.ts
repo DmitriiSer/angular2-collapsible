@@ -25,9 +25,12 @@ export class CollapsibleTableRowComponent implements OnInit {
 
     ngOnInit() { }
 
-    @HostListener('mousedown')
-    mousedown() {
-        this.activeState = 'active';
+    @HostListener('mousedown', ['$event'])
+    mousedown(event: MouseEvent) {
+        let target: Element = <Element>event.target || <Element>event.currentTarget || event.srcElement;
+        if (target.tagName !== 'TH') {
+            this.activeState = 'active';
+        }
         // console.debug(`mousedown, activeState = ${this.activeState}`);
     }
 
