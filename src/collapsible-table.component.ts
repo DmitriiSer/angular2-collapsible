@@ -16,22 +16,27 @@ import { CollapsibleService } from './collapsible.service';
             position: relative;
             width: 100%;
             border-collapse: collapse;
-            border-top: 1px solid #ddd;
-            border-right: 1px solid #ddd;
-            border-left: 1px solid #ddd;
         }
+
+        :host[bordered] {
+            border-top: 1px solid #d0d0d0;
+            border-right: 1px solid #d0d0d0;
+            border-left: 1px solid #d0d0d0;
+        }
+
+        :host thead {
+            border-bottom: 1px solid #d0d0d0;
+        }        
         
         :host[bordered] /deep/ tr,
         :host[bordered] /deep/ collapsible-table-row,
         :host[borderedHorizontally] /deep/ tr,
-        :host[borderedHorizontally] /deep/ tr,
-        :host[borderedHorizontally] /deep/ collapsible-table-row,
         :host[borderedHorizontally] /deep/ collapsible-table-row {
             border-bottom: 1px solid #d0d0d0;
         }
 
-        :host[bordered] /deep/ th:not(:last-child),
-        :host[bordered] /deep/ td:not(:last-child),
+        :host[bordered] /deep/ th,
+        :host[bordered] /deep/ td,
         :host[borderedVertically] /deep/ th:not(:last-child),
         :host[borderedVertically] /deep/ td:not(:last-child) {
             border-right: 1px solid #d0d0d0;

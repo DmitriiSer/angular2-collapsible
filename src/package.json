@@ -1,7 +1,7 @@
 {
   "name": "angular2-collapsible",
   "description": "Angular 2 / 4 Materialize CSS collapsible components",
-  "version": "0.0.25",
+  "version": "0.0.27",
   "dependencies": {
     "@angular/animations": "^4.0.0"
   },
