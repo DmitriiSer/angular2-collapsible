@@ -30,7 +30,6 @@ import { CollapsibleAnimationsService } from './collapsible-animations.service';
             border: 0;
             background-color: #fff;
         }
-
     `],
     animations: CollapsibleAnimationsService.collapsibleBodyAnimations('collapsibleBodyState')
 })

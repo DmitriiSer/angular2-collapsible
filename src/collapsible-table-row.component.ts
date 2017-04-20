@@ -9,7 +9,6 @@ import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
 import { CollapsibleTableRowDetailComponent } from './collapsible-table-row-detail.component';
 import { CollapsibleTableComponent } from './collapsible-table.component';
 import { CollapsibleService } from './collapsible.service';
-// import { CollapsibleAnimationsService } from './collapsible-animations.service';
 
 @Component({
     selector: 'collapsible-table-row',
@@ -21,36 +20,32 @@ import { CollapsibleService } from './collapsible.service';
             transition-property: background-color;
         }
     `],
-    // animations: CollapsibleAnimations.collapsibleTableRowAnimations('collapsibleTableRowState')
 })
 export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     private static rowIndex = 1;
-    // private static easeInQuad = 'cubic-bezier(0.55, 0.085, 0.68, 0.53)';
     private static easeOutQuad = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
     @Input() detail: CollapsibleTableRowDetailComponent;
 
     @HostBinding('style.background-color') rowColor: string;
 
-    @HostBinding('style.transition-duration') backgroundTransitionDuration = '0.4s';
+    @HostBinding('style.transition-duration') backgroundTransitionDuration = '0.3s';
     // transition-timing-function: easeInQuad
     @HostBinding('style.transition-timing-function')
     backgroundTransitionTimingFunction = this.sanitizer
         .bypassSecurityTrustStyle(CollapsibleTableRowComponent.easeOutQuad);
 
-    // @HostBinding('@collapsibleTableRowState') activeState: string;
-
     private parentCollapsibleTable: CollapsibleTableComponent;
 
-    private headRow = false;
-    private bodyRow = false;
-    private oddRow = false;
-    private evenRow = false;
-    private parentStriped = false;
-    private stripedRowColor: string;
-    private parentHighlight = false;
-    private highlightRowColor: string;
-    private activeRowColor: string;
+    isHeadRow = false;
+    isBodyRow = false;
+    isOddRow = false;
+    isEvenRow = false;
+    isParentStriped = false;
+    parentStripedRowColor: string;
+    isParentHighlight = false;
+    parentHighlightRowColor: string;
+    activeRowColor: string;
 
     constructor(
         private el: ElementRef,
@@ -62,10 +57,10 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         this.parentCollapsibleTable = this.collapsibleService.getCollapsibleTable();
 
         // check if collapsible-table is marked to show striped table
-        this.parentStriped = this.parentCollapsibleTable.striped;
+        this.isParentStriped = this.parentCollapsibleTable.striped;
         // check if collapsible-table is marked to highlight current row
-        this.parentHighlight = this.parentCollapsibleTable.highlight;
-        this.highlightRowColor = this.parentCollapsibleTable.highlightColor;
+        this.isParentHighlight = this.parentCollapsibleTable.highlight;
+        this.parentHighlightRowColor = this.parentCollapsibleTable.highlightColor;
         // check if collapsible-table specifies the active row color
         this.activeRowColor = this.parentCollapsibleTable.activeColor;
     }
@@ -76,20 +71,20 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         // determine if the row is inside the 'thead'
         let th = elem.querySelector('th');
         if (th != null) {
-            this.headRow = true;
+            this.isHeadRow = true;
         }
 
         // determine if the row is inside the 'tbody'
         let td = elem.querySelector('td');
         if (td != null) {
-            this.bodyRow = true;
+            this.isBodyRow = true;
             // determine if the row is 'odd' or 'event'
             if (CollapsibleTableRowComponent.rowIndex++ % 2 === 0) {
-                this.evenRow = true;
-                this.stripedRowColor = this.parentCollapsibleTable.stripedEvenColor;
+                this.isEvenRow = true;
+                this.parentStripedRowColor = this.parentCollapsibleTable.stripedEvenColor;
             } else {
-                this.oddRow = true;
-                this.stripedRowColor = this.parentCollapsibleTable.stripedOddColor;
+                this.isOddRow = true;
+                this.parentStripedRowColor = this.parentCollapsibleTable.stripedOddColor;
             }
         }
     }
@@ -97,27 +92,19 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     @HostListener('mousedown')
     mousedown() {
         // console.debug('mousedown');
-        if (this.isBodyRow()) {
-            if (this.isParentStriped()) {
-                this.rowColor = this.activeRowColor;
-            } else {
-                this.rowColor = this.activeRowColor;
-                // this.activeState = 'active';
-            }
-        }
+        if (this.isBodyRow) this.rowColor = this.activeRowColor;
     }
 
     @HostListener('mouseup')
     mouseup() {
         // console.debug('mouseup');
-        if (this.isBodyRow()) {
-            if (this.isParentHighlight()) {
-                this.rowColor = this.getParentHightlightColor();
-            } else if (this.isParentStriped()) {
-                this.rowColor = this.getParentStripedColor();
+        if (this.isBodyRow) {
+            if (this.isParentHighlight) {
+                this.rowColor = this.parentHighlightRowColor;
+            } else if (this.isParentStriped) {
+                this.rowColor = this.parentStripedRowColor;
             } else {
-                this.rowColor = this.activeRowColor;
-                // this.activeState = 'inactive';
+                this.rowColor = undefined;
             }
         }
     }
@@ -125,17 +112,17 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     @HostListener('mouseenter')
     mouseenter() {
         // console.debug('mouseenter');
-        if (this.isBodyRow() && this.isParentHighlight()) {
-            this.rowColor = this.getParentHightlightColor();
+        if (this.isBodyRow && this.isParentHighlight) {
+            this.rowColor = this.parentHighlightRowColor;
         }
     }
 
     @HostListener('mouseleave')
     mouseleave() {
         // console.debug('mouseleave');
-        if (this.isBodyRow() && this.isParentHighlight()) {
-            if (this.isParentStriped()) {
-                this.rowColor = this.getParentStripedColor();
+        if (this.isBodyRow && this.isParentHighlight) {
+            if (this.isParentStriped) {
+                this.rowColor = this.parentStripedRowColor;
             } else {
                 this.rowColor = '';
             }
@@ -147,38 +134,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         if (this.detail != null) {
             this.detail.subject.next();
         }
-    }
-
-    isParentStriped(): boolean {
-        return this.parentStriped;
-    }
-
-    isParentHighlight(): boolean {
-        return this.parentHighlight;
-    }
-
-    getParentStripedColor(): string {
-        return this.stripedRowColor;
-    }
-
-    getParentHightlightColor(): string {
-        return this.highlightRowColor;
-    }
-
-    isHeadRow(): boolean {
-        return this.headRow;
-    }
-
-    isBodyRow(): boolean {
-        return this.bodyRow;
-    }
-
-    isOddRow(): boolean {
-        return this.oddRow;
-    }
-
-    isEvenRow(): boolean {
-        return this.evenRow;
     }
 
 }

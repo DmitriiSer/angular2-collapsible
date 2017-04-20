@@ -25,16 +25,10 @@ import { Subject } from 'rxjs/Rx';
     styles: [`
         :host {
             display: table-row;
-            box-shadow:                
-                inset 0 4px 4px -2px rgb(208, 208, 208),
-                inset 0 -3px 2px -1px rgb(208, 208, 208);
         }
         
+        :host collapsible-body,
         :host td {
-            padding: 0;
-        }
-
-        :host collapsible-body {
             padding: 0;
         }
     `]

@@ -138,7 +138,7 @@ OR for a table with collapsible row details
 
 ## Options
 
-### Collapsible list
+### Common options
 
 -   ```javascript
     type = 'accordion' | 'expandable'
@@ -146,7 +146,8 @@ OR for a table with collapsible row details
     ```
     **Description**
     Type of the collapsible list: 'accordion' or 'expandable'  
-  
+
+### Collapsible list
 
 ### Collapsible table
 

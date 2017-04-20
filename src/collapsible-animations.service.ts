@@ -19,9 +19,12 @@ export class CollapsibleAnimationsService {
                     paddingTop: 0,
                     paddingBottom: 0,
                     borderBottom: 'none',
+                    boxShadow: 'none',
                     overflow: 'hidden'
                 })),
-                state('true', style({})),
+                state('true', style({
+                    boxShadow: 'inset 0 4px 4px -2px rgb(208, 208, 208), inset 0 -3px 2px -1px rgb(208, 208, 208)'
+                })),
                 transition('* => true',
                     animate(CollapsibleAnimationsService.collapsibleBodyAnimationDuration + ' ' +
                         CollapsibleAnimationsService.easeInQuad)),

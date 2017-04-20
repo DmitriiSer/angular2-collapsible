@@ -2,8 +2,7 @@ import {
     Component,
     OnInit, OnChanges, SimpleChanges,
     Input, HostBinding,
-    ContentChildren, QueryList, AfterContentInit,
-    ElementRef
+    ContentChildren, QueryList, AfterContentInit
 } from '@angular/core';
 
 import { CollapsibleTableRowComponent } from './collapsible-table-row.component';
@@ -131,14 +130,13 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     @ContentChildren(CollapsibleTableRowComponent) collapsibleTableRowComponent: QueryList<CollapsibleTableRowComponent>;
 
-    constructor(
-        private el: ElementRef,
-        private collapsibleService: CollapsibleService) { }
+    constructor(private collapsibleService: CollapsibleService) { }
 
     ngOnInit() {
         // update grid view styles and parameters
-        this.updateParameters();
-        /*console.debug(`CollapsibleTableComponent::ngOnInit()\n` +
+        // this.updateParameters();
+        /*
+        console.debug(`CollapsibleTableComponent::ngOnInit()\n` +
             `this = {\n` +
             `bordered = ${this.bordered}\n` +
             `borderedHorizontally = ${this.borderedHorizontally}\n` +
@@ -155,19 +153,46 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
             `selectColor = ${this.selectColor}\n` +
             `selectMultipleRows = ${this.selectMultipleRows}\n` +
             `noTextSelect = ${this.noTextSelect}\n` +
-            `}`);*/
+            `}`);
+        */
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         for (let change in changes) {
-            if (change === 'type') {
-                this.type = changes.type.currentValue;
-                this.collapsibleService.setType(this.type);
+            if (changes.hasOwnProperty(change)) {
+                if (this.collapsibleTableRowComponent != null) {
+                    switch (change) {
+                        case 'striped':
+                        case 'stripedOddColor':
+                        case 'stripedEvenColor':
+                            this.updateTable('striped');
+                            break;
+                        case 'highlight':
+                        case 'highlightColor':
+                            this.updateTable('highlight');
+                            break;
+                        case 'activeColor':
+                            this.updateTable('activeColor');
+                            break;
+                        /*
+                        case 'property':
+                            console.debug(`property: ${changes[change].previousValue} => ${changes[change].currentValue}`);
+                            break;
+                        */
+                    }
+                }
+
+                // update collapsible table type in CollapsibleService
+                if (change === 'type') {
+                    this.type = changes.type.currentValue;
+                    this.collapsibleService.setType(this.type);
+                }
             }
         }
         this.collapsibleService.setCollapsibleTable(this);
     }
 
+    /*
     updateParameters(): void {
         // check for grid view attributes
         for (let attribute of this.el.nativeElement.attributes) {
@@ -195,20 +220,62 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
             this.borderedHorizontally = true;
             this.borderedVertically = true;
         }
+    }
+    */
 
+    updateStriped(row: CollapsibleTableRowComponent): void {
+        if (this.striped && row.isBodyRow) {
+            row.isParentStriped = true;
+            if (row.isOddRow) {
+                row.parentStripedRowColor = this.stripedOddColor;
+                row.rowColor = this.stripedOddColor;
+            } else {
+                row.parentStripedRowColor = this.stripedEvenColor;
+                row.rowColor = this.stripedEvenColor;
+            }
+        } else {
+            row.isParentStriped = false;
+            row.rowColor = undefined;
+        }
+    }
+
+    updateHighlight(row: CollapsibleTableRowComponent): void {
+        row.isParentHighlight = this.highlight;
+        row.parentHighlightRowColor = this.highlightColor;
+    }
+
+    updateActiveColor(row: CollapsibleTableRowComponent): void {
+        row.activeRowColor = this.activeColor;
+    }
+
+    updateTable(change?: string): void {
+        if (this.collapsibleTableRowComponent != null) {
+            if (change != null) {
+                switch (change) {
+                    case 'striped':
+                        // propagate changes to each of the CollapsibleTableRowComponent children
+                        this.collapsibleTableRowComponent.forEach(row => { this.updateStriped(row); });
+                        break;
+                    case 'highlight':
+                        this.collapsibleTableRowComponent.forEach(row => { this.updateHighlight(row); });
+                        break;
+                    case 'activeColor':
+                        this.collapsibleTableRowComponent.forEach(row => { this.updateActiveColor(row); });
+                        break;
+                }
+            } else {
+                // propagate changes to each of the CollapsibleTableRowComponent children
+                this.collapsibleTableRowComponent.forEach(row => {
+                    this.updateStriped(row);
+                    this.updateHighlight(row);
+                    this.updateActiveColor(row);
+                });
+            }
+        }
     }
 
     ngAfterContentInit() {
         // console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
-        if (this.striped) {
-            this.collapsibleTableRowComponent.forEach(row => {
-                if (row.isOddRow()) {
-                    row.rowColor = this.stripedOddColor;
-                }
-                if (row.isEvenRow()) {
-                    row.rowColor = this.stripedEvenColor;
-                }
-            });
-        }
+        this.updateTable();
     }
 }
