@@ -12,7 +12,7 @@ import { CollapsibleTableRowDetailComponent } from './collapsible-table-row-deta
 
 import { CollapsibleService } from './collapsible.service';
 import { CollapsibleEventService } from './collapsible-event.service';
-import { CollapsibleAnimations } from './collapsible-animations.service';
+import { CollapsibleAnimationsService } from './collapsible-animations.service';
 
 
 export * from './collapsible-list.component';
@@ -51,7 +51,7 @@ export * from './collapsible-animations.service';
   providers: [
     CollapsibleService,
     CollapsibleEventService,
-    CollapsibleAnimations
+    CollapsibleAnimationsService
   ]
 })
 export class CollapsibleModule {

@@ -8,7 +8,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 
 import { CollapsibleService } from './collapsible.service';
 import { CollapsibleEventService } from './collapsible-event.service';
-import { CollapsibleAnimations } from './collapsible-animations.service';
+import { CollapsibleAnimationsService } from './collapsible-animations.service';
 
 @Component({
     selector: 'collapsible-body',
@@ -32,7 +32,7 @@ import { CollapsibleAnimations } from './collapsible-animations.service';
         }
 
     `],
-    animations: CollapsibleAnimations.collapsibleBodyAnimations('collapsibleBodyState')
+    animations: CollapsibleAnimationsService.collapsibleBodyAnimations('collapsibleBodyState')
 })
 export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
     @HostBinding('@collapsibleBodyState')

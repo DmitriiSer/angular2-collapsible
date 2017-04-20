@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AnimationTriggerMetadata, trigger, state, style, transition, animate } from '@angular/animations';
 
 @Injectable()
-export class CollapsibleAnimations {
+export class CollapsibleAnimationsService {
 
     static collapsibleBodyAnimationDuration = '0.2s';
     static easeInQuad = 'cubic-bezier(0.55, 0.085, 0.68, 0.53)';
@@ -23,31 +23,33 @@ export class CollapsibleAnimations {
                 })),
                 state('true', style({})),
                 transition('* => true',
-                    animate(CollapsibleAnimations.collapsibleBodyAnimationDuration + ' ' +
-                        CollapsibleAnimations.easeInQuad)),
+                    animate(CollapsibleAnimationsService.collapsibleBodyAnimationDuration + ' ' +
+                        CollapsibleAnimationsService.easeInQuad)),
                 transition('* => false',
-                    animate(CollapsibleAnimations.collapsibleBodyAnimationDuration + ' ' +
-                        CollapsibleAnimations.easeOutQuad))
+                    animate(CollapsibleAnimationsService.collapsibleBodyAnimationDuration + ' ' +
+                        CollapsibleAnimationsService.easeOutQuad))
             ])
         ];
     }
 
+    /*
     static collapsibleTableRowAnimations(triggerName: string): AnimationTriggerMetadata[] {
         return [
             trigger(triggerName, [
                 state('active', style({
-                    backgroundColor: 'rgba(0, 0, 0, 0.15)'
+                    background: 'rgba(0, 0, 0, 0.15)'
                 })),
                 state('inactive', style({
-                    backgroundColor: 'transparent'
+                    background: 'transparent'
                 })),
                 transition('* => active',
-                    animate(CollapsibleAnimations.collapsibleTableRowAnimationDuration + ' ' +
-                        CollapsibleAnimations.easeOutQuad)),
+                    animate(CollapsibleAnimationsService.collapsibleTableRowAnimationDuration + ' ' +
+                        CollapsibleAnimationsService.easeOutQuad)),
                 transition('* => inactive',
-                    animate(CollapsibleAnimations.collapsibleTableRowAnimationDuration + ' ' +
-                        CollapsibleAnimations.easeOutQuad))
+                    animate(CollapsibleAnimationsService.collapsibleTableRowAnimationDuration + ' ' +
+                        CollapsibleAnimationsService.easeOutQuad))
             ])
         ];
     }
+    */
 }

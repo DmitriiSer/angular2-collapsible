@@ -28,9 +28,9 @@ To install this library, run:
 $ npm install angular2-collapsible --save
 ```
 
-## Consuming your library
+## Consuming the library
 
-Once you have published your library to npm, you can import your library in any Angular application by running:
+You can import the library in any Angular application by running:
 
 ```bash
 $ npm install angular2-collapsible
@@ -54,23 +54,20 @@ import { CollapsibleModule } from 'angular2-collapsible';
   ],
   imports: [
     BrowserModule,
+    // Specify required BrowserAnimationsModule
     BrowserAnimationsModule,
-    // Specify your library as an import
+    // Specify angular2-collapsible library as an import
     CollapsibleModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
 ```
 
-Once your library is imported, you can use its components, directives and pipes in your Angular application:
+Once the library is imported, you can use its components and services in your Angular application:
 
 ```xml
-<!-- You can now use your library component in app.component.html -->
-<h1>
-  {{title}}
-</h1>
+<h1>{{title}}</h1>
 
 <collapsible-list [type]="'accordion'">
   
@@ -95,13 +92,10 @@ Once your library is imported, you can use its components, directives and pipes 
 </collapsible-list>
 ```
 
-OR for a table with collapsible rows
+OR for a table with collapsible row details
 
 ```xml
-<!-- You can now use your library component in app.component.html -->
-<h1>
-  {{title}}
-</h1>
+<h1>{{title}}</h1>
 
 <collapsible-table [type]="'accordion'" bordered>
 
@@ -142,19 +136,19 @@ OR for a table with collapsible rows
 </collapsible-table>
 ```
 
-## Development
+## Options
 
-To generate all `*.js`, `*.js.map` and `*.d.ts` files:
+### Collapsible list
 
-```bash
-$ npm run tsc
-```
+-   ```javascript
+    type = 'accordion' | 'expandable'
+    [deafult: 'accordion']
+    ```
+    **Description**
+    Type of the collapsible list: 'accordion' or 'expandable'  
+  
 
-To lint all `*.ts` files:
-
-```bash
-$ npm run lint
-```
+### Collapsible table
 
 ## License
 

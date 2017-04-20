@@ -26,8 +26,8 @@ import { Subject } from 'rxjs/Rx';
         :host {
             display: table-row;
             box-shadow:                
-                inset 0 4px 2px -1px rgba(0,0,0,0.34),
-                inset 0 -3px 2px -1px rgba(0,0,0,0.14);
+                inset 0 4px 4px -2px rgb(208, 208, 208),
+                inset 0 -3px 2px -1px rgb(208, 208, 208);
         }
         
         :host td {

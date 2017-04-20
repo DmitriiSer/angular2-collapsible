@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { CollapsibleTableComponent } from './collapsible-table.component';
 import { CollapsibleHeaderComponent } from './collapsible-header.component';
 import { CollapsibleBodyComponent } from './collapsible-body.component';
 
@@ -7,6 +8,7 @@ import { CollapsibleBodyComponent } from './collapsible-body.component';
 export class CollapsibleService {
     type: 'accordion' | 'expandable';
 
+    collapsibleTable: CollapsibleTableComponent;
     headers: Array<CollapsibleHeaderComponent> = new Array<CollapsibleHeaderComponent>();
     bodies: Array<CollapsibleBodyComponent> = new Array<CollapsibleBodyComponent>();
 
@@ -16,6 +18,14 @@ export class CollapsibleService {
 
     setType(type: 'accordion' | 'expandable') {
         this.type = type;
+    }
+
+    getCollapsibleTable(): CollapsibleTableComponent {
+        return this.collapsibleTable;
+    }
+
+    setCollapsibleTable(table: CollapsibleTableComponent) {
+        this.collapsibleTable = table;
     }
 
     addListHeader(header: CollapsibleHeaderComponent): void {

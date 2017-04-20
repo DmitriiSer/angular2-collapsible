@@ -1,10 +1,12 @@
 import {
     Component,
     OnInit, OnChanges, SimpleChanges,
-    Input,
+    Input, HostBinding,
+    ContentChildren, QueryList, AfterContentInit,
     ElementRef
 } from '@angular/core';
 
+import { CollapsibleTableRowComponent } from './collapsible-table-row.component';
 import { CollapsibleService } from './collapsible.service';
 
 @Component({
@@ -18,60 +20,116 @@ import { CollapsibleService } from './collapsible.service';
             border-collapse: collapse;
         }
 
-        :host[bordered] {
+        :host thead {
+            border-bottom: 1px solid #d0d0d0;
+        }        
+        
+        :host /deep/ collapsible-table-row th,
+        :host /deep/ collapsible-table-row td {
+            border-radius: 0;
+        }
+
+        :host[bordered='true'] {
             border-top: 1px solid #d0d0d0;
             border-right: 1px solid #d0d0d0;
             border-left: 1px solid #d0d0d0;
         }
 
-        :host thead {
-            border-bottom: 1px solid #d0d0d0;
-        }        
-        
-        :host[bordered] /deep/ collapsible-table-row,
-        :host[borderedHorizontally] /deep/ collapsible-table-row {
+        :host[bordered='true'] /deep/ collapsible-table-row,
+        :host[borderedHorizontally='true'] /deep/ collapsible-table-row {
             border-bottom: 1px solid #d0d0d0;
         }
 
-        :host[bordered] /deep/ collapsible-table-row th,
-        :host[bordered] /deep/ collapsible-table-row td,
-        :host[borderedVertically] /deep/ collapsible-table-row th:not(:last-child),
-        :host[borderedVertically] /deep/ collapsible-table-row td:not(:last-child) {
+        :host[bordered='true'] /deep/ collapsible-table-row th,
+        :host[bordered='true'] /deep/ collapsible-table-row td,
+        :host[borderedVertically='true'] /deep/ collapsible-table-row th:not(:last-child),
+        :host[borderedVertically='true'] /deep/ collapsible-table-row td:not(:last-child) {
             border-right: 1px solid #d0d0d0;
         }
+
+        :host(.centered) /deep/ * {
+            text-align: center;
+        }
+
+        :host(.noTextSelect) /deep/ collapsible-table-row th,
+        :host(.noTextSelect) /deep/ collapsible-table-row td {
+            user-select: none;
+        }        
     `],
     providers: [
         CollapsibleService
     ]
 })
-export class CollapsibleTableComponent implements OnInit, OnChanges {
-    // component parameters
+export class CollapsibleTableComponent implements OnInit, OnChanges, AfterContentInit {
+    // component options
     //
     // makes the table bordered
-    @Input() bordered: boolean;
+    @Input()
+    @HostBinding('attr.bordered') bordered: boolean;
+
     // makes the table bordered horizontally only
-    @Input() borderedHorizontally: boolean;
+    @Input()
+    @HostBinding('attr.borderedHorizontally') borderedHorizontally: boolean;
+
     // makes the table bordered vertically only
-    @Input() borderedVertically: boolean;
+    @Input()
+    @HostBinding('attr.borderedVertically') borderedVertically: boolean;
+
     // makes the table striped
-    @Input() striped: boolean;
-    // a color of a striped row
-    @Input() stripedColor: any = '#f2f2f2';
+    @Input()
+    @HostBinding('attr.striped') striped: boolean;
+
+    // a color of an odd striped row
+    @Input()
+    @HostBinding('attr.stripedOddColor') stripedOddColor = '#f2f2f2';
+
+    // a color of an even striped row
+    @Input()
+    @HostBinding('attr.stripedEvenColor') stripedEvenColor = 'transparent';
+
     // highlight table rows on mouse hover
-    @Input() highlight: boolean;
-    @Input() centered: boolean;
+    @Input()
+    @HostBinding('attr.highlight') highlight: boolean;
+
+    // a color of a highlighted row
+    @Input()
+    @HostBinding('attr.highlightColor') highlightColor = '#f2f2f2';
+
+    // a color of an active row
+    @Input()
+    @HostBinding('attr.activeColor') activeColor = '';
+
+    // center align all the text in the table
+    @Input()
+    @HostBinding('class.centered')
+    @HostBinding('attr.centered') centered: boolean;
+
     // makes the table horizontally scrollable on smaller screen widths
-    @Input() responsive: boolean;
+    @Input()
+    @HostBinding('attr.responsive') responsive: boolean;
+
     // allows to select rows
-    @Input() select: boolean;
+    @Input()
+    @HostBinding('attr.select') select: boolean;
+
     // allows to select multiple rows
-    @Input() selectMultipleRows: boolean;
+    @Input()
+    @HostBinding('attr.selectMultipleRows') selectMultipleRows: boolean;
+
     // allows to set selection color
-    @Input() selectColor: any = 'rgba(0, 0, 0, 0.2)';
+    @Input()
+    @HostBinding('attr.selectColor') selectColor = 'rgba(0, 0, 0, 0.2)';
+
     // disables user select withing the table
-    @Input() noTextSelect: boolean;
+    @Input()
+    @HostBinding('class.noTextSelect')
+    @HostBinding('attr.noTextSelect') noTextSelect: boolean;
+
     // specifies collapsible type. Can be either 'accordion' or 'expandable'
-    @Input() type: 'accordion' | 'expandable' = 'accordion';
+    @Input()
+    @HostBinding('attr.type') type: 'accordion' | 'expandable' = 'accordion';
+
+    @ContentChildren(CollapsibleTableRowComponent) collapsibleTableRowComponent: QueryList<CollapsibleTableRowComponent>;
 
     constructor(
         private el: ElementRef,
@@ -80,6 +138,24 @@ export class CollapsibleTableComponent implements OnInit, OnChanges {
     ngOnInit() {
         // update grid view styles and parameters
         this.updateParameters();
+        /*console.debug(`CollapsibleTableComponent::ngOnInit()\n` +
+            `this = {\n` +
+            `bordered = ${this.bordered}\n` +
+            `borderedHorizontally = ${this.borderedHorizontally}\n` +
+            `borderedVertically = ${this.borderedVertically}\n` +
+            `striped = ${this.striped}\n` +
+            `stripedOddColor = ${this.stripedOddColor}\n` +
+            `stripedEvenColor = ${this.stripedEvenColor}\n` +
+            `highlight = ${this.highlight}\n` +
+            `highlightColor = ${this.highlightColor}\n` +
+            `activeColor = ${this.activeColor}\n` +
+            `centered = ${this.centered}\n` +
+            `responsive = ${this.responsive}\n` +
+            `select = ${this.select}\n` +
+            `selectColor = ${this.selectColor}\n` +
+            `selectMultipleRows = ${this.selectMultipleRows}\n` +
+            `noTextSelect = ${this.noTextSelect}\n` +
+            `}`);*/
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -89,32 +165,50 @@ export class CollapsibleTableComponent implements OnInit, OnChanges {
                 this.collapsibleService.setType(this.type);
             }
         }
+        this.collapsibleService.setCollapsibleTable(this);
     }
 
     updateParameters(): void {
-        // TODO: check for grid view classes
-        // console.debug(this.el.nativeElement.classList);
         // check for grid view attributes
         for (let attribute of this.el.nativeElement.attributes) {
             switch (attribute.nodeName) {
-                case 'bordered':
-                    // this.el.nativeElement.addClass('bordered');
-                    this.bordered = true; break;
+                case 'bordered': this.bordered = true; break;
                 case 'borderedhorizontally': this.borderedHorizontally = true; break;
                 case 'borderedvertically': this.borderedVertically = true; break;
                 case 'striped': this.striped = true; break;
+                case 'stripedoddcolor': this.stripedOddColor = this.el.nativeElement.getAttribute('stripedoddcolor'); break;
+                case 'stripedevencolor': this.stripedEvenColor = this.el.nativeElement.getAttribute('stripedevencolor'); break;
                 case 'highlight': this.highlight = true; break;
+                case 'highlightcolor': this.highlightColor = this.el.nativeElement.getAttribute('highlightcolor'); break;
+                case 'activecolor': this.activeColor = this.el.nativeElement.getAttribute('activecolor'); break;
                 case 'centered': this.centered = true; break;
                 case 'responsive': this.responsive = true; break;
                 case 'select': this.select = true; break;
+                case 'selectcolor': this.selectColor = this.el.nativeElement.getAttribute('selectcolor'); break;
                 case 'selectmultiplerows': this.selectMultipleRows = true; break;
                 case 'notextselect': this.noTextSelect = true; break;
             }
         }
 
-        if (this.bordered) {
+        if (this.bordered &&
+            (!this.borderedHorizontally || !this.borderedVertically)) {
             this.borderedHorizontally = true;
             this.borderedVertically = true;
+        }
+
+    }
+
+    ngAfterContentInit() {
+        // console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
+        if (this.striped) {
+            this.collapsibleTableRowComponent.forEach(row => {
+                if (row.isOddRow()) {
+                    row.rowColor = this.stripedOddColor;
+                }
+                if (row.isEvenRow()) {
+                    row.rowColor = this.stripedEvenColor;
+                }
+            });
         }
     }
 }

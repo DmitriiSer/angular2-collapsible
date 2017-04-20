@@ -49,6 +49,9 @@ import { CollapsibleService } from './collapsible.service';
   providers: [CollapsibleService]
 })
 export class CollapsibleListComponent implements OnChanges {
+  // component options
+  //
+  // describes the type of the collapsible list: 'accordion' or 'expandable'
   @Input() type: 'accordion' | 'expandable' = 'accordion';
 
   @ContentChildren(CollapsibleListItemComponent) contentListItems: QueryList<CollapsibleListItemComponent>;
