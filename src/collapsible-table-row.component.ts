@@ -52,7 +52,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         private sanitizer: DomSanitizer,
         private collapsibleService: CollapsibleService) { }
 
-    ngOnInit() {        
+    ngOnInit() {
         // retrieve parent CollapsibleTableComponent through the CollapsibleService
         this.parentCollapsibleTable = this.collapsibleService.getCollapsibleTable();
 
@@ -87,14 +87,18 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
                 this.parentStripedRowColor = this.parentCollapsibleTable.stripedOddColor;
             }
 
-            if (this.isParentStriped) this.rowColor = this.parentStripedRowColor;
+            if (this.isParentStriped) {
+                this.rowColor = this.parentStripedRowColor;
+            }
         }
     }
 
     @HostListener('mousedown')
     mousedown() {
         // console.debug('mousedown');
-        if (this.isBodyRow) this.rowColor = this.activeRowColor;
+        if (this.isBodyRow) {
+            this.rowColor = this.activeRowColor;
+        }
     }
 
     @HostListener('mouseup')

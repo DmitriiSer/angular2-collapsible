@@ -152,7 +152,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
             `selectMultipleRows = ${this.selectMultipleRows}\n` +
             `noTextSelect = ${this.noTextSelect}\n` +
             `}`);
-        */        
+        */
     }
 
     ngOnChanges(changes: SimpleChanges): void {
