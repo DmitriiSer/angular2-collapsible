@@ -53,7 +53,6 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     hasContent(): boolean {
-        let hasContent = false;
         for (let child of this.el.nativeElement.childNodes) {
             if ((<Element>child).tagName != null) {
                 return true;
@@ -84,7 +83,6 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
                     changes.expanded.currentValue != null) {
                     // console.debug('CollapsibleBody::ngOnChanges(), currentValue = ' + changes.expanded.currentValue);
                     // this.expanded = changes.expanded.currentValue;
-                    console.debug();
                     this.expandedState = this.expanded.toString();
                 }
             }
