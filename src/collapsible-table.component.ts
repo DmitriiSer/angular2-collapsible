@@ -133,8 +133,6 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     constructor(private collapsibleService: CollapsibleService) { }
 
     ngOnInit() {
-        // update grid view styles and parameters
-        // this.updateParameters();
         /*
         console.debug(`CollapsibleTableComponent::ngOnInit()\n` +
             `this = {\n` +
@@ -154,7 +152,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
             `selectMultipleRows = ${this.selectMultipleRows}\n` +
             `noTextSelect = ${this.noTextSelect}\n` +
             `}`);
-        */
+        */        
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -174,11 +172,6 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
                         case 'activeColor':
                             this.updateTable('activeColor');
                             break;
-                        /*
-                        case 'property':
-                            console.debug(`property: ${changes[change].previousValue} => ${changes[change].currentValue}`);
-                            break;
-                        */
                     }
                 }
 
@@ -191,37 +184,6 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
         }
         this.collapsibleService.setCollapsibleTable(this);
     }
-
-    /*
-    updateParameters(): void {
-        // check for grid view attributes
-        for (let attribute of this.el.nativeElement.attributes) {
-            switch (attribute.nodeName) {
-                case 'bordered': this.bordered = true; break;
-                case 'borderedhorizontally': this.borderedHorizontally = true; break;
-                case 'borderedvertically': this.borderedVertically = true; break;
-                case 'striped': this.striped = true; break;
-                case 'stripedoddcolor': this.stripedOddColor = this.el.nativeElement.getAttribute('stripedoddcolor'); break;
-                case 'stripedevencolor': this.stripedEvenColor = this.el.nativeElement.getAttribute('stripedevencolor'); break;
-                case 'highlight': this.highlight = true; break;
-                case 'highlightcolor': this.highlightColor = this.el.nativeElement.getAttribute('highlightcolor'); break;
-                case 'activecolor': this.activeColor = this.el.nativeElement.getAttribute('activecolor'); break;
-                case 'centered': this.centered = true; break;
-                case 'responsive': this.responsive = true; break;
-                case 'select': this.select = true; break;
-                case 'selectcolor': this.selectColor = this.el.nativeElement.getAttribute('selectcolor'); break;
-                case 'selectmultiplerows': this.selectMultipleRows = true; break;
-                case 'notextselect': this.noTextSelect = true; break;
-            }
-        }
-
-        if (this.bordered &&
-            (!this.borderedHorizontally || !this.borderedVertically)) {
-            this.borderedHorizontally = true;
-            this.borderedVertically = true;
-        }
-    }
-    */
 
     updateStriped(row: CollapsibleTableRowComponent): void {
         if (this.striped && row.isBodyRow) {
@@ -276,6 +238,5 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     ngAfterContentInit() {
         // console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
-        this.updateTable();
     }
 }
