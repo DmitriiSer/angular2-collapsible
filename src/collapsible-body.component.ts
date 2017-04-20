@@ -2,6 +2,7 @@ import {
     Component,
     OnInit, OnDestroy, OnChanges,
     Input, HostBinding,
+    ElementRef,
     SimpleChanges
 } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -40,6 +41,7 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
     @Input() expanded: boolean;
 
     constructor(
+        private el: ElementRef,
         private collapsibleService: CollapsibleService,
         private eventService: CollapsibleEventService) { }
 
@@ -50,24 +52,41 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
         });
     }
 
+    hasContent(): boolean {
+        let hasContent = false;
+        for (let child of this.el.nativeElement.childNodes) {
+            if ((<Element>child).tagName != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     toggleCollapsibleItem() {
         // console.debug(`toggleCollapsibleItem()`);
-        if (this.collapsibleService.getType() === 'accordion') {
-            let tempExpanded = this.expanded;
-            this.collapsibleService.collapseAll();
-            this.expanded = tempExpanded;
+
+        // toggle body's state only if it has any childs
+        if (this.hasContent()) {
+            if (this.collapsibleService.getType() === 'accordion') {
+                let tempExpanded = this.expanded;
+                this.collapsibleService.collapseAll();
+                this.expanded = tempExpanded;
+            }
+            this.expanded = !this.expanded;
+            this.expandedState = this.expanded.toString();
         }
-        this.expanded = !this.expanded;
-        this.expandedState = this.expanded.toString();
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        for (let key of Object.keys(changes)) {
-            if (key === 'expanded' &&
-                changes.expanded.currentValue != null) {
-                // console.debug('CollapsibleBody::ngOnChanges(), currentValue = ' + changes.expanded.currentValue);
-                // this.expanded = changes.expanded.currentValue;
-                this.expandedState = this.expanded.toString();
+        if (this.hasContent()) {
+            for (let key of Object.keys(changes)) {
+                if (key === 'expanded' &&
+                    changes.expanded.currentValue != null) {
+                    // console.debug('CollapsibleBody::ngOnChanges(), currentValue = ' + changes.expanded.currentValue);
+                    // this.expanded = changes.expanded.currentValue;
+                    console.debug();
+                    this.expandedState = this.expanded.toString();
+                }
             }
         }
     }
