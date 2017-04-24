@@ -2,7 +2,7 @@ import {
     Component,
     OnInit, OnChanges, SimpleChanges,
     Input, HostBinding,
-    ContentChildren, QueryList, AfterContentInit
+    ElementRef, ContentChildren, QueryList, AfterContentInit
 } from '@angular/core';
 
 import { CollapsibleTableRowComponent } from './collapsible-table-row.component';
@@ -124,15 +124,20 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     @HostBinding('class.noTextSelect')
     @HostBinding('attr.noTextSelect') noTextSelect: boolean;
 
+    fixedTableHeight = 'auto';
+
     // specifies collapsible type. Can be either 'accordion' or 'expandable'
     @Input()
     @HostBinding('attr.type') type: 'accordion' | 'expandable' = 'accordion';
 
     @ContentChildren(CollapsibleTableRowComponent) collapsibleTableRowComponent: QueryList<CollapsibleTableRowComponent>;
 
-    constructor(private collapsibleService: CollapsibleService) { }
+    constructor(
+        private el: ElementRef,
+        private collapsibleService: CollapsibleService) { }
 
     ngOnInit() {
+        // console.debug(`CollapsibleTableComponent::ngOnInit()`);
         /*
         console.debug(`CollapsibleTableComponent::ngOnInit()\n` +
             `this = {\n` +
@@ -153,6 +158,11 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
             `noTextSelect = ${this.noTextSelect}\n` +
             `}`);
         */
+    }
+
+    ngAfterContentInit() {
+        //console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
+        //this.updateFixedTableHeight();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -184,6 +194,18 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
         }
         this.collapsibleService.setCollapsibleTable(this);
     }
+
+    /*updateFixedTableHeight() {
+        this.fixedTableHeight = this.el.nativeElement.offsetHeight + 'px';
+        let elem: Element = this.el.nativeElement;
+        console.debug(`updateFixedTableHeight(): this.fixedTableHeight = ${this.fixedTableHeight}`);
+        let rowHeights = 0;
+        if (this.collapsibleTableRowComponent != null) {
+            this.collapsibleTableRowComponent.forEach(row => {
+                console.debug(row.getHeight());
+            });
+        }
+    }*/
 
     updateStriped(row: CollapsibleTableRowComponent): void {
         if (this.striped && row.isBodyRow) {
@@ -236,7 +258,4 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
         }
     }
 
-    ngAfterContentInit() {
-        // console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
-    }
 }
