@@ -22,7 +22,7 @@ import { CollapsibleService } from './collapsible.service';
     `],
 })
 export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
-    private static rowIndex = 1;
+
     private static easeOutQuad = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
     @Input() detail: CollapsibleTableRowDetailComponent;
@@ -47,12 +47,28 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     parentHighlightRowColor: string;
     activeRowColor: string;
 
+    index: number;
+
     constructor(
         private el: ElementRef,
         private sanitizer: DomSanitizer,
         private collapsibleService: CollapsibleService) { }
 
     ngOnInit() {
+        let elem: Element = this.el.nativeElement;
+        let tbody: Element = elem.parentElement;
+        if (tbody.tagName === 'TBODY') {
+            //console.debug(elem);
+            let collapsibleTableRows: NodeListOf<Element> = tbody.querySelectorAll('collapsible-table-row');
+            for (let i = 0; i < collapsibleTableRows.length; i++) {
+                let collapsibleTableRow: Element = collapsibleTableRows[i];
+                if (collapsibleTableRow === elem) {
+                    this.index = i + 1;
+                    break;
+                }
+            }
+        }
+
         // retrieve parent CollapsibleTableComponent through the CollapsibleService
         this.parentCollapsibleTable = this.collapsibleService.getCollapsibleTable();
 
@@ -66,6 +82,11 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     }
 
     ngAfterContentInit(): void {
+        //console.debug(`CollapsibleTableRowComponent::ngAfterContentInit()`);
+        this.updateRow();
+    }
+
+    updateRow(): void {
         let elem: Element = this.el.nativeElement;
 
         // determine if the row is inside the 'thead'
@@ -79,7 +100,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         if (td != null) {
             this.isBodyRow = true;
             // determine if the row is 'odd' or 'event'
-            if (CollapsibleTableRowComponent.rowIndex++ % 2 === 0) {
+            if (this.index % 2 === 0) {
                 this.isEvenRow = true;
                 this.parentStripedRowColor = this.parentCollapsibleTable.stripedEvenColor;
             } else {
@@ -91,6 +112,10 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
                 this.rowColor = this.parentStripedRowColor;
             }
         }
+    }
+
+    getHeight(): number {
+        return this.el.nativeElement.offsetHeight;
     }
 
     @HostListener('mousedown')

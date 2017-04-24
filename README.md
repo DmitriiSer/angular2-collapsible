@@ -40,13 +40,13 @@ and then from your Angular `AppModule`:
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // <-- import required BrowserAnimationsModule
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
 // Import your library
-import { CollapsibleModule } from 'angular2-collapsible';
+import { CollapsibleModule } from 'angular2-collapsible'; // <-- import the module
 
 @NgModule({
   declarations: [
@@ -54,10 +54,8 @@ import { CollapsibleModule } from 'angular2-collapsible';
   ],
   imports: [
     BrowserModule,
-    // Specify required BrowserAnimationsModule
-    BrowserAnimationsModule,
-    // Specify angular2-collapsible library as an import
-    CollapsibleModule
+    BrowserAnimationsModule,  // <-- include required BrowserAnimationsModule
+    CollapsibleModule // <-- include angular2-collapsible module
   ],
   bootstrap: [AppComponent]
 })
@@ -138,18 +136,14 @@ OR for a table with collapsible row details
 
 ## Options
 
-### Common options
+```javascript
+type = 'accordion' | 'expandable' [deafult: 'accordion']
+```
+**Description**: The type of the collapsible list: 'accordion' or 'expandable'
 
--   ```javascript
-    type = 'accordion' | 'expandable'
-    [deafult: 'accordion']
-    ```
-    **Description**
-    Type of the collapsible list: 'accordion' or 'expandable'  
+### Collapsible list options
 
-### Collapsible list
-
-### Collapsible table
+### Collapsible table options
 
 ## License
 
