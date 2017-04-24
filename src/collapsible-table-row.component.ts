@@ -58,7 +58,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         let elem: Element = this.el.nativeElement;
         let tbody: Element = elem.parentElement;
         if (tbody.tagName === 'TBODY') {
-            //console.debug(elem);
+            // console.debug(elem);
             let collapsibleTableRows: NodeListOf<Element> = tbody.querySelectorAll('collapsible-table-row');
             for (let i = 0; i < collapsibleTableRows.length; i++) {
                 let collapsibleTableRow: Element = collapsibleTableRows[i];
@@ -82,7 +82,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     }
 
     ngAfterContentInit(): void {
-        //console.debug(`CollapsibleTableRowComponent::ngAfterContentInit()`);
+        // console.debug(`CollapsibleTableRowComponent::ngAfterContentInit()`);
         this.updateRow();
     }
 

@@ -161,8 +161,8 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     }
 
     ngAfterContentInit() {
-        //console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
-        //this.updateFixedTableHeight();
+        // console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
+        // this.updateFixedTableHeight();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
