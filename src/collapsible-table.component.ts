@@ -119,6 +119,11 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     @Input()
     @HostBinding('attr.selectColor') selectColor: string;
 
+    // allows navigation between table rows using arrow keys
+    @Input()
+    @HostBinding('attr.allowKeyboardNavigation')
+    allowKeyboardNavigation = true;
+
     // disables user select withing the table
     @Input()
     @HostBinding('class.noTextSelect')
@@ -201,6 +206,10 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
         this.collapsibleService.setCollapsibleTable(this);
     }
 
+    focus() {
+        this.el.nativeElement.focus();
+    }
+
     addSelectedRow(index: number): void {
         if (this.selectMultipleRows && this.selectedRows.indexOf(index) === -1) {
             this.selectedRows.push(index);
@@ -231,6 +240,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     }
 
     selectRow(index: number) {
+        // console.debug(`selectRow(${index})`);
         if (0 < index && index <= this.collapsibleTableRows.length - 1) {
             if (this.selectMultipleRows) {
                 this.clearSelectedRows();
@@ -248,6 +258,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     }
 
     selectRows(firstRowIndex: number, lastRowIndex: number) {
+        // console.debug(`selectRows(${firstRowIndex}, ${lastRowIndex})`);
         if (this.selectMultipleRows &&
             0 < firstRowIndex && firstRowIndex < lastRowIndex &&
             lastRowIndex <= this.collapsibleTableRows.length - 1) {
@@ -329,30 +340,33 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     @HostListener('keydown', ['$event'])
     keydown(event: KeyboardEvent) {
-        // console.debug(`keydown`);
-        let key = { arrowUp: 38, arrowDown: 40 };
-        let index = 1;
-        switch (event.which) {
-            case key.arrowUp:
-                event.preventDefault();
-                event.stopPropagation();
-                // select previous row
-                if (this.selectedRows.length > 0) {
-                    index = this.selectedRows[this.selectedRows.length - 1];
-                    index--;
-                }
-                this.selectRow(index);
-                break;
-            case key.arrowDown:
-                event.preventDefault();
-                event.stopPropagation();
-                // select next row
-                if (this.selectedRows.length > 0) {
-                    index = this.selectedRows[this.selectedRows.length - 1];
-                    index++;
-                }
-                this.selectRow(index);
-                break;
+        // console.debug(`keydown, ${event.which}`);
+        // select a row only if 'select' property is set to 'true'
+        if (this.select && this.allowKeyboardNavigation) {
+            let key = { arrowUp: 38, arrowDown: 40 };
+            let index = 1;
+            switch (event.which) {
+                case key.arrowUp:
+                    event.preventDefault();
+                    event.stopPropagation();
+                    // select previous row
+                    if (this.selectedRows.length > 0) {
+                        index = this.selectedRows[this.selectedRows.length - 1];
+                        index--;
+                    }
+                    this.selectRow(index);
+                    break;
+                case key.arrowDown:
+                    event.preventDefault();
+                    event.stopPropagation();
+                    // select next row
+                    if (this.selectedRows.length > 0) {
+                        index = this.selectedRows[this.selectedRows.length - 1];
+                        index++;
+                    }
+                    this.selectRow(index);
+                    break;
+            }
         }
     }
 

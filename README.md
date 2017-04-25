@@ -144,22 +144,23 @@ OR for a table with collapsible row details
 
 ### Collapsible table options
 
-| Option                   | Type    | Default value              | Description                                                      |
-| ------------------------ | ------- | -------------------------- | ---------------------------------------------------------------- |
-| **bordered**             | boolean | *false*                    | Makes the table bordered                                         |
-| **borderedHorizontally** | boolean | *false*                    | Makes the table bordered horizontally only                       |
-| **borderedVertically**   | boolean | *false*                    | Makes the table bordered vertically only                         |
-| **striped**              | boolean | *false*                    | Makes the table striped                                          |
-| **stripedEvenColor**     | string  | *'transparent'*            | A color of an even striped row                                   |
-| **highlight**            | boolean | *false*                    | Highlight table rows on mouse hover                              |
-| **highlightColor**       | string  | *'rgba(222,222,222, 0.8)'* | A color of a highlighted row                                     |
-| **activeColor**          | string  | *'rgba(212,212,212, 0.8)'* | A color of an active row                                         |
-| **centered**             | boolean | *false*                    | Center align all the text in the table                           |
-| *[ ] TODO: responsive*   | boolean | *false*                    | Makes the table horizontally scrollable on smaller screen widths |
-| **select**               | boolean | *false*                    | Allows to select rows                                            |
-| **selectMultipleRows**   | boolean | *false*                    | Allows to multiple rows                                          |
-| **selectColor**          | string  | *'rgba(212,212,212, 0.8)'* | Allows to multiple rows                                          |
-| **noTextSelect**         | boolean | *false*                    | Disables user select withing the table                           |
+| Option                      | Type    | Default value              | Description                                                      |
+| --------------------------- | ------- | -------------------------- | ---------------------------------------------------------------- |
+| **bordered**                | boolean | *false*                    | Makes the table bordered                                         |
+| **borderedHorizontally**    | boolean | *false*                    | Makes the table bordered horizontally only                       |
+| **borderedVertically**      | boolean | *false*                    | Makes the table bordered vertically only                         |
+| **striped**                 | boolean | *false*                    | Makes the table striped                                          |
+| **stripedEvenColor**        | string  | *'transparent'*            | A color of an even striped row                                   |
+| **highlight**               | boolean | *false*                    | Highlight table rows on mouse hover                              |
+| **highlightColor**          | string  | *'rgba(222,222,222, 0.8)'* | A color of a highlighted row                                     |
+| **activeColor**             | string  | *'rgba(212,212,212, 0.8)'* | A color of an active row                                         |
+| **centered**                | boolean | *false*                    | Center align all the text in the table                           |
+| *[ ] TODO: responsive*      | boolean | *false*                    | Makes the table horizontally scrollable on smaller screen widths |
+| **select**                  | boolean | *false*                    | Allows to select rows                                            |
+| **selectMultipleRows**      | boolean | *false*                    | Allows to multiple rows                                          |
+| **selectColor**             | string  | *'rgba(212,212,212, 0.8)'* | Allows to multiple rows                                          |
+| **allowKeyboardNavigation** | boolean | *true*                     | Allows navigation between table rows using arrow keys            |
+| **noTextSelect**            | boolean | *false*                    | Disables user select withing the table                           |
 
 ## License
 
