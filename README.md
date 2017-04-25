@@ -136,14 +136,31 @@ OR for a table with collapsible row details
 
 ## Options
 
-```javascript
-type = 'accordion' | 'expandable' [deafult: 'accordion']
-```
-**Description**: The type of the collapsible list: 'accordion' or 'expandable'
+| Option               | Type                           | Default value | Description                                                   |
+| -------------------- | ------------------------------ | ------------- | ------------------------------------------------------------- |
+| type                 | { 'accordion' | 'expandable' } | 'accordion'   | The type of the collapsible list: 'accordion' or 'expandable' |
 
 ### Collapsible list options
 
 ### Collapsible table options
+
+| Option               | Type    | Default value            | Description                                                      |
+| -------------------- | ------- | ------------------------ | ---------------------------------------------------------------- |
+| bordered             | boolean | false                    | Makes the table bordered                                         |
+| borderedHorizontally | boolean | false                    | Makes the table bordered horizontally only                       |
+| borderedVertically   | boolean | false                    | Makes the table bordered vertically only                         |
+| striped              | boolean | false                    | Makes the table striped                                          |
+| stripedOddColor      | string  | 'rgba(242,242,242,0.8)'  | A color of an odd striped row                                    |
+| stripedEvenColor     | string  | 'transparent'            | A color of an even striped row                                   |
+| highlight            | boolean | false                    | Highlight table rows on mouse hover                              |
+| highlightColor       | string  | 'rgba(222,222,222, 0.8)' | A color of a highlighted row                                     |
+| activeColor          | string  | 'rgba(212,212,212, 0.8)' | A color of an active row                                         |
+| centered             | boolean | false                    | Center align all the text in the table                           |
+| [ ] TODO: responsive | boolean | false                    | Makes the table horizontally scrollable on smaller screen widths |
+| select               | boolean | false                    | Allows to select rows                                            |
+| selectMultipleRows   | boolean | false                    | Allows to multiple rows                                          |
+| selectColor          | string  | 'rgba(212,212,212, 0.8)' | Allows to multiple rows                                          |
+| noTextSelect         | boolean | false                    | Disables user select withing the table                           |
 
 ## License
 

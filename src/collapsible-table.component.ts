@@ -115,7 +115,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     @Input()
     @HostBinding('attr.selectMultipleRows') selectMultipleRows: boolean;
 
-    // allows to set selection color
+    // a color of a selected row
     @Input()
     @HostBinding('attr.selectColor') selectColor: string;
 
