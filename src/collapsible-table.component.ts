@@ -1,7 +1,7 @@
 import {
     Component,
     OnInit, OnChanges, SimpleChanges,
-    Input, HostBinding,
+    Input, HostBinding, HostListener,
     ElementRef, ContentChildren, QueryList, AfterContentInit
 } from '@angular/core';
 
@@ -80,11 +80,11 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     // a color of an odd striped row
     @Input()
-    @HostBinding('attr.stripedOddColor') stripedOddColor = '#f2f2f2';
+    @HostBinding('attr.stripedOddColor') stripedOddColor: string;
 
     // a color of an even striped row
     @Input()
-    @HostBinding('attr.stripedEvenColor') stripedEvenColor = 'transparent';
+    @HostBinding('attr.stripedEvenColor') stripedEvenColor: string;
 
     // highlight table rows on mouse hover
     @Input()
@@ -92,11 +92,11 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     // a color of a highlighted row
     @Input()
-    @HostBinding('attr.highlightColor') highlightColor = '#f2f2f2';
+    @HostBinding('attr.highlightColor') highlightColor: string;
 
     // a color of an active row
     @Input()
-    @HostBinding('attr.activeColor') activeColor = '';
+    @HostBinding('attr.activeColor') activeColor: string;
 
     // center align all the text in the table
     @Input()
@@ -117,7 +117,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     // allows to set selection color
     @Input()
-    @HostBinding('attr.selectColor') selectColor = 'rgba(0, 0, 0, 0.2)';
+    @HostBinding('attr.selectColor') selectColor: string;
 
     // disables user select withing the table
     @Input()
@@ -126,11 +126,17 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     fixedTableHeight = 'auto';
 
+    @HostBinding('attr.tabindex') tabindex = 0;
+
+    selectedRows: Array<number> = [];
+
     // specifies collapsible type. Can be either 'accordion' or 'expandable'
     @Input()
     @HostBinding('attr.type') type: 'accordion' | 'expandable' = 'accordion';
 
-    @ContentChildren(CollapsibleTableRowComponent) collapsibleTableRowComponent: QueryList<CollapsibleTableRowComponent>;
+    @ContentChildren(CollapsibleTableRowComponent) collapsibleTableRows: QueryList<CollapsibleTableRowComponent>;
+
+    mouseDownHold = false;
 
     constructor(
         private el: ElementRef,
@@ -168,7 +174,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     ngOnChanges(changes: SimpleChanges): void {
         for (let change in changes) {
             if (changes.hasOwnProperty(change)) {
-                if (this.collapsibleTableRowComponent != null) {
+                if (this.collapsibleTableRows != null) {
                     switch (change) {
                         case 'striped':
                         case 'stripedOddColor':
@@ -193,6 +199,69 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
             }
         }
         this.collapsibleService.setCollapsibleTable(this);
+    }
+
+    addSelectedRow(index: number): void {
+        if (this.selectMultipleRows && this.selectedRows.indexOf(index) === -1) {
+            this.selectedRows.push(index);
+            this.selectedRows.sort((a, b) => a - b);
+        } else if (!this.selectMultipleRows) {
+            this.selectedRows = [];
+            this.deselectAllRows();
+            this.selectedRows.push(index);
+            this.selectedRows.sort((a, b) => a - b);
+        }
+    }
+
+    removeSelectedRow(index: number): void {
+        if (this.selectedRows.indexOf(index) !== -1) {
+            this.selectedRows.splice(this.selectedRows.indexOf(index), 1);
+        }
+    }
+
+    clearSelectedRows() {
+        this.selectedRows = [];
+    }
+
+    deselectAllRows() {
+        this.collapsibleTableRows.forEach(row => {
+            row.selected = false;
+            row.updateRow();
+        });
+    }
+
+    selectRow(index: number) {
+        if (0 < index && index <= this.collapsibleTableRows.length - 1) {
+            if (this.selectMultipleRows) {
+                this.clearSelectedRows();
+            }
+            this.addSelectedRow(index);
+            this.collapsibleTableRows.forEach((row, i) => {
+                if (index !== i) {
+                    row.selected = false;
+                } else {
+                    row.selected = true;
+                }
+                row.updateRow();
+            });
+        }
+    }
+
+    selectRows(firstRowIndex: number, lastRowIndex: number) {
+        if (this.selectMultipleRows &&
+            0 < firstRowIndex && firstRowIndex < lastRowIndex &&
+            lastRowIndex <= this.collapsibleTableRows.length - 1) {
+            this.clearSelectedRows();
+            this.collapsibleTableRows.forEach((row, i) => {
+                if (firstRowIndex <= i && i <= lastRowIndex) {
+                    this.addSelectedRow(i);
+                    row.selected = true;
+                } else {
+                    row.selected = false;
+                }
+                row.updateRow();
+            });
+        }
     }
 
     /*updateFixedTableHeight() {
@@ -233,23 +302,23 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     }
 
     updateTable(change?: string): void {
-        if (this.collapsibleTableRowComponent != null) {
+        if (this.collapsibleTableRows != null) {
             if (change != null) {
                 switch (change) {
                     case 'striped':
                         // propagate changes to each of the CollapsibleTableRowComponent children
-                        this.collapsibleTableRowComponent.forEach(row => { this.updateStriped(row); });
+                        this.collapsibleTableRows.forEach(row => { this.updateStriped(row); });
                         break;
                     case 'highlight':
-                        this.collapsibleTableRowComponent.forEach(row => { this.updateHighlight(row); });
+                        this.collapsibleTableRows.forEach(row => { this.updateHighlight(row); });
                         break;
                     case 'activeColor':
-                        this.collapsibleTableRowComponent.forEach(row => { this.updateActiveColor(row); });
+                        this.collapsibleTableRows.forEach(row => { this.updateActiveColor(row); });
                         break;
                 }
             } else {
                 // propagate changes to each of the CollapsibleTableRowComponent children
-                this.collapsibleTableRowComponent.forEach(row => {
+                this.collapsibleTableRows.forEach(row => {
                     this.updateStriped(row);
                     this.updateHighlight(row);
                     this.updateActiveColor(row);
@@ -258,4 +327,42 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
         }
     }
 
+    @HostListener('keydown', ['$event'])
+    keydown(event: KeyboardEvent) {
+        // console.debug(`keydown`);
+        let key = { arrowUp: 38, arrowDown: 40 };
+        let index = 1;
+        switch (event.which) {
+            case key.arrowUp:
+                event.preventDefault();
+                event.stopPropagation();
+                // select previous row
+                if (this.selectedRows.length > 0) {
+                    index = this.selectedRows[this.selectedRows.length - 1];
+                    index--;
+                }
+                this.selectRow(index);
+                break;
+            case key.arrowDown:
+                event.preventDefault();
+                event.stopPropagation();
+                // select next row
+                if (this.selectedRows.length > 0) {
+                    index = this.selectedRows[this.selectedRows.length - 1];
+                    index++;
+                }
+                this.selectRow(index);
+                break;
+        }
+    }
+
+    @HostListener('mousedown')
+    mousedown() {
+        this.mouseDownHold = true;
+    }
+
+    @HostListener('mouseup')
+    mouseup() {
+        this.mouseDownHold = false;
+    }
 }
