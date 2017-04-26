@@ -21,7 +21,11 @@ import { CollapsibleService } from './collapsible.service';
 
         :host thead {
             border-bottom: 1px solid #d0d0d0;
-        }        
+        }
+
+        :host /deep/ tbody /deep/ collapsible-table-row {
+            cursor: pointer;
+        }
         
         :host /deep/ collapsible-table-row th,
         :host /deep/ collapsible-table-row td {
