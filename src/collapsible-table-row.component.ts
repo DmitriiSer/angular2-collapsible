@@ -269,7 +269,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
             // set dragSelection flag to false. Prevents selection drag behavior
             this.dragSelection = false;
         }
-        
+
         // focus the collapsible table
         this.parentCollapsibleTable.focus();
     }
