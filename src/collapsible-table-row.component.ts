@@ -70,6 +70,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
 
     private parentCollapsibleTable: CollapsibleTableComponent;
     private prevSelectedRows: Array<number>;
+    private dragSelection = false;
 
     constructor(
         private el: ElementRef,
@@ -205,7 +206,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
                 this.prevSelectedRows = this.parentCollapsibleTable.selectedRows;
                 this.parentCollapsibleTable.clearSelectedRows();
                 this.parentCollapsibleTable.deselectAllRows();
-                //this.parentCollapsibleTable.selectRow(this.index);
             }
             this.rowBackgroundColor = this.activeRowBackgroundColor;
             this.rowTextColor = this.activeRowTextColor;
@@ -261,7 +261,8 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
                     rangeSelectedRows.sort((a, b) => a - b);
                     let firstRowIndex = Math.min.apply(null, rangeSelectedRows);
                     let lastRowIndex = Math.max.apply(null, rangeSelectedRows);
-                    console.debug(`rangeSelectedRows = ${rangeSelectedRows}, firstRowIndex = ${firstRowIndex}, lastRowIndex = ${lastRowIndex}`);
+                    console.log(`rangeSelectedRows = ${rangeSelectedRows},` +
+                        ` firstRowIndex = ${firstRowIndex}, lastRowIndex = ${lastRowIndex}`);
                     this.parentCollapsibleTable.selectRows(firstRowIndex, lastRowIndex);
                 }
             }
@@ -270,8 +271,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
             this.dragSelection = false;
         }
     }
-
-    private dragSelection = false;
 
     @HostListener('mouseenter')
     mouseenter() {
