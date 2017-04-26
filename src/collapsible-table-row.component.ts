@@ -197,25 +197,47 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         return this.el.nativeElement.offsetHeight;
     }
 
+    private isLeftMouseButton(event: MouseEvent): boolean {
+        if ('buttons' in event) {
+            return event.buttons === 1;
+        } else if ('which' in event) {
+            return event.which === 1;
+        } else {
+            return event.button === 1;
+        }
+    }
+
     @HostListener('mousedown', ['$event'])
     mousedown(event: MouseEvent) {
-        // console.debug('mousedown');
-        event.preventDefault();
-        if (this.isBodyRow) {
-            if (!this.parentAllowsDeselectingRows) {
-                this.prevSelectedRows = this.parentCollapsibleTable.selectedRows;
-                this.parentCollapsibleTable.clearSelectedRows();
-                this.parentCollapsibleTable.deselectAllRows();
+        // console.debug(`mousedown`);
+
+        // handle only if the Left mouse button pressed
+        // and the row is a body row
+        if (this.isLeftMouseButton(event) && this.isBodyRow) {
+            this.parentCollapsibleTable.focus();
+
+            if (this.parentCollapsibleTable.noTextSelect) {
+                event.preventDefault();
             }
-            this.rowBackgroundColor = this.activeRowBackgroundColor;
-            this.rowTextColor = this.activeRowTextColor;
+            if (this.isBodyRow) {
+                if (this.parentAllowsSelect && !this.parentAllowsDeselectingRows) {
+                    this.prevSelectedRows = this.parentCollapsibleTable.selectedRows;
+                    this.parentCollapsibleTable.clearSelectedRows();
+                    this.parentCollapsibleTable.deselectAllRows();
+                }
+                this.rowBackgroundColor = this.activeRowBackgroundColor;
+                this.rowTextColor = this.activeRowTextColor;
+            }
         }
     }
 
     @HostListener('mouseup', ['$event'])
-    mouseup(event?: MouseEvent) {
+    mouseup(event: MouseEvent) {
         // console.debug(`mouseup`);
-        if (this.isBodyRow) {
+
+        // handle only if the Left mouse button pressed
+        // and the row is a body row
+        if (this.isLeftMouseButton(event) && this.isBodyRow) {
             // handle selection
             if (this.parentAllowsSelect) {
                 if (!this.parentAllowsDeselectingRows) {
@@ -228,11 +250,13 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
             }
 
             // check row state
-            switch (true) {
+            this.parentCollapsibleTable.updateTable();
+            /*switch (true) {
                 // parent allows selecting rows and the row is selected
                 case this.parentAllowsSelect && this.selected:
                     this.rowBackgroundColor = this.selectedRowBackgroundColor;
                     this.rowTextColor = this.selectedRowTextColor;
+                    this.parentCollapsibleTable.updateTable();
                     break;
                 // highlighted
                 case this.isParentHighlight:
@@ -248,7 +272,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
                     this.rowBackgroundColor = undefined;
                     this.rowTextColor = undefined;
                     break;
-            }
+            }*/
 
             // select multiple rows using the 'Shift' key
             if (this.parentAllowsSelect &&
@@ -272,10 +296,13 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         }
     }
 
-    @HostListener('mouseenter')
-    mouseenter() {
+    @HostListener('mouseenter', ['$event'])
+    mouseenter(event: MouseEvent) {
         // console.debug(`mouseenter`);
-        if (this.isBodyRow) {
+
+        // handle only if the Left mouse button pressed
+        // and the row is a body row
+        if (this.isLeftMouseButton(event) && this.isBodyRow) {
             switch (true) {
                 // the use is trying to select multiple rows by holding a mouse button
                 case this.parentAllowsSelect && this.parentAllowsSelectMultipleRows && this.parentCollapsibleTable.mouseDownHold:
@@ -294,10 +321,13 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         }
     }
 
-    @HostListener('mouseleave')
-    mouseleave() {
-        // console.debug('mouseleave');
-        if (this.isBodyRow) {
+    @HostListener('mouseleave', ['$event'])
+    mouseleave(event: MouseEvent) {
+        // console.debug(`mouseleave`);
+
+        // handle only if the Left mouse button pressed
+        // and the row is a body row
+        if (this.isLeftMouseButton(event) && this.isBodyRow) {
             // check row state
             switch (true) {
                 // the use is trying to select multiple rows by holding a mouse button
@@ -308,8 +338,8 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
                 // parent allows selecting rows and the row is selected
                 case this.parentAllowsSelect && this.selected:
                     break;
-                // highlighted and stripped
-                case this.isParentHighlight && this.isParentStriped:
+                // stripped
+                case this.isParentStriped:
                     this.rowBackgroundColor = this.parentStripedRowBackgroundColor;
                     this.rowTextColor = this.parentStripedRowTextColor;
                     break;
