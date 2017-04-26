@@ -24,13 +24,13 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
 
     private static EASE_OUT_QUAD = 'cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
-    private static DEFAULT_STRIPED_ODD_ROW_COLOR = 'rgba(242,242,242,0.8)';
-    private static DEFAULT_STRIPED_EVEN_ROW_COLOR = 'transparent';
-    private static DEFAULT_HIGHLIGHT_ROW_COLOR = 'rgba(222,222,222, 0.8)';
-    private static DEFAULT_ACTIVE_ROW_COLOR = 'rgba(212,212,212, 0.8)';
-    private static DEFAULT_SELECTED_ROW_COLOR = 'rgba(212,212,212, 0.8)';
+    public static DEFAULT_STRIPED_ODD_ROW_COLOR = 'rgba(242,242,242,0.8)';
+    public static DEFAULT_STRIPED_EVEN_ROW_COLOR = 'transparent';
+    public static DEFAULT_HIGHLIGHT_ROW_COLOR = 'rgba(222,222,222, 0.8)';
+    public static DEFAULT_ACTIVE_ROW_COLOR = 'rgba(212,212,212, 0.8)';
+    public static DEFAULT_SELECTED_ROW_COLOR = 'rgba(212,212,212, 0.8)';
 
-    private static DEFAULT_ROW_TEXT_COLOR = 'black';
+    public static DEFAULT_ROW_TEXT_COLOR = 'black';
 
     @Input() detail: CollapsibleTableRowDetailComponent;
 
@@ -99,23 +99,15 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
 
         // check if collapsible-table is marked to highlight current row
         this.isParentHighlight = this.parentCollapsibleTable.highlight;
-        this.parentHighlightRowBackgroundColor = (this.parentCollapsibleTable.highlightColor != null &&
-            this.parentCollapsibleTable.highlightColor !== '') ?
-            this.parentCollapsibleTable.highlightColor :
+        this.parentHighlightRowBackgroundColor = this.parentCollapsibleTable.highlightColor ||
             CollapsibleTableRowComponent.DEFAULT_HIGHLIGHT_ROW_COLOR;
-        this.parentHighlightRowTextColor = (this.parentCollapsibleTable.highlightTextColor != null &&
-            this.parentCollapsibleTable.highlightTextColor !== '') ?
-            this.parentCollapsibleTable.highlightTextColor :
+        this.parentHighlightRowTextColor = this.parentCollapsibleTable.highlightTextColor ||
             CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
 
         // check if collapsible-table specifies the active row color
-        this.activeRowBackgroundColor = (this.parentCollapsibleTable.activeColor != null &&
-            this.parentCollapsibleTable.activeColor !== '') ?
-            this.parentCollapsibleTable.activeColor :
+        this.activeRowBackgroundColor = this.parentCollapsibleTable.activeColor ||
             CollapsibleTableRowComponent.DEFAULT_ACTIVE_ROW_COLOR;
-        this.activeRowTextColor = (this.parentCollapsibleTable.activeTextColor != null &&
-            this.parentCollapsibleTable.activeTextColor !== '') ?
-            this.parentCollapsibleTable.activeTextColor :
+        this.activeRowTextColor = this.parentCollapsibleTable.activeTextColor ||
             CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
 
         // check if collapsible-table allows selecting rows
@@ -123,13 +115,9 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         this.parentAllowsSelectMultipleRows = this.parentCollapsibleTable.selectMultipleRows;
 
         // check if collapsible-table specifies a color for the selected row
-        this.selectedRowBackgroundColor = (this.parentCollapsibleTable.selectColor != null &&
-            this.parentCollapsibleTable.selectColor !== '') ?
-            this.parentCollapsibleTable.selectColor :
+        this.selectedRowBackgroundColor = this.parentCollapsibleTable.selectColor ||
             CollapsibleTableRowComponent.DEFAULT_SELECTED_ROW_COLOR;
-        this.selectedRowTextColor = (this.parentCollapsibleTable.selectTextColor != null &&
-            this.parentCollapsibleTable.selectTextColor !== '') ?
-            this.parentCollapsibleTable.selectTextColor :
+        this.selectedRowTextColor = this.parentCollapsibleTable.selectTextColor ||
             CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
 
         // check if collapsible-table allows to deselect rows
@@ -158,23 +146,15 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
             // determine if the row is 'odd' or 'event'
             if (this.index % 2 === 0) {
                 this.isEvenRow = true;
-                this.parentStripedRowBackgroundColor = (this.parentCollapsibleTable.stripedEvenColor != null &&
-                    this.parentCollapsibleTable.stripedEvenColor !== '') ?
-                    this.parentCollapsibleTable.stripedEvenColor :
+                this.parentStripedRowBackgroundColor = this.parentCollapsibleTable.stripedEvenColor ||
                     CollapsibleTableRowComponent.DEFAULT_STRIPED_EVEN_ROW_COLOR;
-                this.parentStripedRowTextColor = (this.parentCollapsibleTable.stripedEvenTextColor != null &&
-                    this.parentCollapsibleTable.stripedEvenTextColor !== '') ?
-                    this.parentCollapsibleTable.stripedEvenTextColor :
+                this.parentStripedRowTextColor = this.parentCollapsibleTable.stripedEvenTextColor ||
                     CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
             } else {
                 this.isOddRow = true;
-                this.parentStripedRowBackgroundColor = (this.parentCollapsibleTable.stripedOddColor != null &&
-                    this.parentCollapsibleTable.stripedOddColor !== '') ?
-                    this.parentCollapsibleTable.stripedOddColor :
+                this.parentStripedRowBackgroundColor = this.parentCollapsibleTable.stripedOddColor ||
                     CollapsibleTableRowComponent.DEFAULT_STRIPED_ODD_ROW_COLOR;
-                this.parentStripedRowTextColor = (this.parentCollapsibleTable.stripedOddTextColor != null &&
-                    this.parentCollapsibleTable.stripedOddTextColor !== '') ?
-                    this.parentCollapsibleTable.stripedOddTextColor :
+                this.parentStripedRowTextColor = this.parentCollapsibleTable.stripedOddTextColor ||
                     CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
             }
 
@@ -197,11 +177,11 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     }
 
     private isLeftMouseButton(event: MouseEvent): boolean {
-        // console.debug(`isLeftMouseButton`);        
-        if ("button" in event) {
+        // console.debug(`isLeftMouseButton`);
+        if ('button' in event) {
             return event.button === 0;
         }
-        var button = event.which || event.button;
+        let button = event.which || event.button;
         return button === 1;
     }
 
@@ -211,9 +191,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         // and the row is a body row
         if (this.isLeftMouseButton(event) && this.isBodyRow) {
             // console.debug(`mousedown`);
-
-            this.parentCollapsibleTable.focus();
-
             if (this.parentCollapsibleTable.noTextSelect) {
                 event.preventDefault();
             }
@@ -235,6 +212,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         // and the row is a body row
         if (this.isLeftMouseButton(event) && this.isBodyRow) {
             // console.debug(`mouseup`);
+
             // handle selection
             if (this.parentAllowsSelect) {
                 if (!this.parentAllowsDeselectingRows) {
@@ -283,7 +261,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
                     let firstRowIndex = Math.min.apply(null, rangeSelectedRows);
                     let lastRowIndex = Math.max.apply(null, rangeSelectedRows);
                     console.log(`rangeSelectedRows = ${rangeSelectedRows},` +
-                        ` firstRowIndex = ${firstRowIndex}, lastRowIndex = ${lastRowIndex}`);
+                        ` firstRowIndex = ${firstRowIndex}, lastRowIndex = ${lastRowIndex} `);
                     this.parentCollapsibleTable.selectRows(firstRowIndex, lastRowIndex);
                 }
             }
@@ -291,6 +269,9 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
             // set dragSelection flag to false. Prevents selection drag behavior
             this.dragSelection = false;
         }
+        
+        // focus the collapsible table
+        this.parentCollapsibleTable.focus();
     }
 
     @HostListener('mouseenter', ['$event'])
