@@ -173,6 +173,11 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     ngOnInit() {
         // console.debug(`CollapsibleTableComponent::ngOnInit()`);
+    }
+
+    ngAfterContentInit() {
+        // console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
+        // this.updateFixedTableHeight();
         /*
         console.debug(`CollapsibleTableComponent::ngOnInit()\n` +
             `this = {\n` +
@@ -198,11 +203,6 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
         */
     }
 
-    ngAfterContentInit() {
-        // console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
-        // this.updateFixedTableHeight();
-    }
-
     ngOnChanges(changes: SimpleChanges): void {
         for (let change in changes) {
             if (changes.hasOwnProperty(change)) {
@@ -210,15 +210,26 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
                     switch (change) {
                         case 'striped':
                         case 'stripedOddColor':
+                        case 'stripedOddTextColor':
                         case 'stripedEvenColor':
+                        case 'stripedEvenTextColor':
                             this.updateTable('striped');
                             break;
                         case 'highlight':
                         case 'highlightColor':
+                        case 'highlightTextColor':
                             this.updateTable('highlight');
                             break;
                         case 'activeColor':
-                            this.updateTable('activeColor');
+                        case 'activeTextColor':
+                            this.updateTable('active');
+                            break;
+                        case 'select':
+                        case 'selectColor':
+                        case 'selectTextColor':
+                        case 'selectMultipleRows':
+                        case 'allowDeselectingRows':
+                            this.updateTable('select');
                             break;
                     }
                 }
@@ -340,24 +351,43 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
             row.isParentStriped = true;
             if (row.isOddRow) {
                 row.parentStripedRowBackgroundColor = this.stripedOddColor;
+                row.parentStripedRowTextColor = this.stripedOddTextColor;
                 row.rowBackgroundColor = this.stripedOddColor;
+                row.rowTextColor = this.stripedOddTextColor;
             } else {
                 row.parentStripedRowBackgroundColor = this.stripedEvenColor;
+                row.parentStripedRowTextColor = this.stripedEvenTextColor;
                 row.rowBackgroundColor = this.stripedEvenColor;
+                row.rowTextColor = this.stripedEvenTextColor;
             }
         } else {
             row.isParentStriped = false;
             row.rowBackgroundColor = undefined;
+            row.rowTextColor = undefined;
         }
     }
 
     updateHighlight(row: CollapsibleTableRowComponent): void {
         row.isParentHighlight = this.highlight;
         row.parentHighlightRowBackgroundColor = this.highlightColor;
+        row.parentHighlightRowTextColor = this.highlightTextColor;
     }
 
-    updateActiveColor(row: CollapsibleTableRowComponent): void {
+    updateActive(row: CollapsibleTableRowComponent): void {
         row.activeRowBackgroundColor = this.activeColor;
+        row.activeRowTextColor = this.activeTextColor;
+    }
+
+    updateSelect(row: CollapsibleTableRowComponent): void {
+        row.parentAllowsSelect = this.select;
+        row.parentAllowsSelectMultipleRows = this.selectMultipleRows;
+        row.parentAllowsDeselectingRows = this.allowDeselectingRows;
+        if (row.selected) {
+            row.selectedRowBackgroundColor = this.selectColor;
+            row.selectedRowTextColor = this.selectTextColor;
+            row.rowBackgroundColor = row.selectedRowBackgroundColor;
+            row.rowTextColor = row.selectedRowTextColor;
+        }
     }
 
     updateTable(change?: string): void {
@@ -371,8 +401,11 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
                     case 'highlight':
                         this.collapsibleTableRows.forEach(row => { this.updateHighlight(row); });
                         break;
-                    case 'activeColor':
-                        this.collapsibleTableRows.forEach(row => { this.updateActiveColor(row); });
+                    case 'active':
+                        this.collapsibleTableRows.forEach(row => { this.updateActive(row); });
+                        break;
+                    case 'select':
+                        this.collapsibleTableRows.forEach(row => { this.updateSelect(row); });
                         break;
                 }
             } else {
@@ -380,7 +413,8 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
                 this.collapsibleTableRows.forEach(row => {
                     this.updateStriped(row);
                     this.updateHighlight(row);
-                    this.updateActiveColor(row);
+                    this.updateSelect(row);
+                    this.updateActive(row);
                 });
             }
         }
@@ -393,27 +427,33 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
         if (this.select && this.allowKeyboardNavigation) {
             let key = { arrowUp: 38, arrowDown: 40 };
             let index = 1;
-            switch (event.which) {
-                case key.arrowUp:
-                    event.preventDefault();
-                    event.stopPropagation();
-                    // select previous row
-                    if (this.selectedRows.length > 0) {
-                        index = this.selectedRows[this.selectedRows.length - 1];
-                        index--;
-                    }
-                    this.selectRow(index);
-                    break;
-                case key.arrowDown:
-                    event.preventDefault();
-                    event.stopPropagation();
-                    // select next row
-                    if (this.selectedRows.length > 0) {
-                        index = this.selectedRows[this.selectedRows.length - 1];
-                        index++;
-                    }
-                    this.selectRow(index);
-                    break;
+            if (event.which === key.arrowUp ||
+                event.which === key.arrowDown) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                switch (event.which) {
+                    case key.arrowUp:
+                        // select previous row
+                        if (this.selectedRows.length > 0) {
+                            index = this.selectedRows[this.selectedRows.length - 1];
+                            index--;
+                        }
+                        break;
+                    case key.arrowDown:
+                        // select next row
+                        if (this.selectedRows.length > 0) {
+                            index = this.selectedRows[this.selectedRows.length - 1];
+                            index++;
+                        }
+                        break;
+                }
+
+                this.clearSelectedRows();
+                this.deselectAllRows();
+                this.selectRow(index);
+                this.updateTable();
             }
         }
     }
