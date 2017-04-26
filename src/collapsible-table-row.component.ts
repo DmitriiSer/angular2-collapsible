@@ -17,7 +17,7 @@ import { CollapsibleService } from './collapsible.service';
         :host {
             display: table-row;
             cursor: pointer;
-            transition-property: background-color;
+            transition-property: background-color, color;
         }
     `],
 })
@@ -31,9 +31,13 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     private static DEFAULT_ACTIVE_ROW_COLOR = 'rgba(212,212,212, 0.8)';
     private static DEFAULT_SELECTED_ROW_COLOR = 'rgba(212,212,212, 0.8)';
 
+    private static DEFAULT_ROW_TEXT_COLOR = 'black';
+
     @Input() detail: CollapsibleTableRowDetailComponent;
 
-    @HostBinding('style.background-color') rowColor: string;
+    @HostBinding('style.color') rowTextColor: string;
+
+    @HostBinding('style.background-color') rowBackgroundColor: string;
 
     @HostBinding('style.transition-duration') backgroundTransitionDuration = '0.3s';
     // transition-timing-function: easeInQuad
@@ -48,17 +52,24 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     isOddRow = false;
     isEvenRow = false;
     isParentStriped = false;
-    parentStripedRowColor: string;
     isParentHighlight = false;
-    parentHighlightRowColor: string;
-    activeRowColor: string;
     parentAllowsSelect = false;
     parentAllowsSelectMultipleRows = false;
-    selectedRowColor: string;
+
+    parentStripedRowBackgroundColor: string;
+    parentStripedRowTextColor: string;
+    parentHighlightRowBackgroundColor: string;
+    parentHighlightRowTextColor: string;
+    activeRowBackgroundColor: string;
+    activeRowTextColor: string;
+    selectedRowBackgroundColor: string;
+    selectedRowTextColor: string;
+    parentAllowsDeselectingRows = false;
 
     index: number;
 
     private parentCollapsibleTable: CollapsibleTableComponent;
+    private prevSelectedRows: Array<number>;
 
     constructor(
         private el: ElementRef,
@@ -88,24 +99,42 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
 
         // check if collapsible-table is marked to highlight current row
         this.isParentHighlight = this.parentCollapsibleTable.highlight;
-        this.parentHighlightRowColor = (this.parentCollapsibleTable.highlightColor != null &&
+        this.parentHighlightRowBackgroundColor = (this.parentCollapsibleTable.highlightColor != null &&
             this.parentCollapsibleTable.highlightColor !== '') ?
             this.parentCollapsibleTable.highlightColor :
             CollapsibleTableRowComponent.DEFAULT_HIGHLIGHT_ROW_COLOR;
+        this.parentHighlightRowTextColor = (this.parentCollapsibleTable.highlightTextColor != null &&
+            this.parentCollapsibleTable.highlightTextColor !== '') ?
+            this.parentCollapsibleTable.highlightTextColor :
+            CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
 
         // check if collapsible-table specifies the active row color
-        this.activeRowColor = (this.parentCollapsibleTable.activeColor != null &&
+        this.activeRowBackgroundColor = (this.parentCollapsibleTable.activeColor != null &&
             this.parentCollapsibleTable.activeColor !== '') ?
             this.parentCollapsibleTable.activeColor :
             CollapsibleTableRowComponent.DEFAULT_ACTIVE_ROW_COLOR;
+        this.activeRowTextColor = (this.parentCollapsibleTable.activeTextColor != null &&
+            this.parentCollapsibleTable.activeTextColor !== '') ?
+            this.parentCollapsibleTable.activeTextColor :
+            CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
+
         // check if collapsible-table allows selecting rows
         this.parentAllowsSelect = this.parentCollapsibleTable.select;
         this.parentAllowsSelectMultipleRows = this.parentCollapsibleTable.selectMultipleRows;
 
-        this.selectedRowColor = (this.parentCollapsibleTable.selectColor != null &&
+        // check if collapsible-table specifies a color for the selected row
+        this.selectedRowBackgroundColor = (this.parentCollapsibleTable.selectColor != null &&
             this.parentCollapsibleTable.selectColor !== '') ?
             this.parentCollapsibleTable.selectColor :
             CollapsibleTableRowComponent.DEFAULT_SELECTED_ROW_COLOR;
+        this.selectedRowTextColor = (this.parentCollapsibleTable.selectTextColor != null &&
+            this.parentCollapsibleTable.selectTextColor !== '') ?
+            this.parentCollapsibleTable.selectTextColor :
+            CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
+
+        // check if collapsible-table allows to deselect rows
+        this.parentAllowsDeselectingRows = this.parentCollapsibleTable.allowDeselectingRows != null ?
+            this.parentCollapsibleTable.allowDeselectingRows : false;
     }
 
     ngAfterContentInit(): void {
@@ -129,24 +158,34 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
             // determine if the row is 'odd' or 'event'
             if (this.index % 2 === 0) {
                 this.isEvenRow = true;
-                this.parentStripedRowColor = (this.parentCollapsibleTable.stripedEvenColor != null &&
+                this.parentStripedRowBackgroundColor = (this.parentCollapsibleTable.stripedEvenColor != null &&
                     this.parentCollapsibleTable.stripedEvenColor !== '') ?
                     this.parentCollapsibleTable.stripedEvenColor :
                     CollapsibleTableRowComponent.DEFAULT_STRIPED_EVEN_ROW_COLOR;
+                this.parentStripedRowTextColor = (this.parentCollapsibleTable.stripedEvenTextColor != null &&
+                    this.parentCollapsibleTable.stripedEvenTextColor !== '') ?
+                    this.parentCollapsibleTable.stripedEvenTextColor :
+                    CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
             } else {
                 this.isOddRow = true;
-                this.parentStripedRowColor = (this.parentCollapsibleTable.stripedOddColor != null &&
+                this.parentStripedRowBackgroundColor = (this.parentCollapsibleTable.stripedOddColor != null &&
                     this.parentCollapsibleTable.stripedOddColor !== '') ?
                     this.parentCollapsibleTable.stripedOddColor :
                     CollapsibleTableRowComponent.DEFAULT_STRIPED_ODD_ROW_COLOR;
+                this.parentStripedRowTextColor = (this.parentCollapsibleTable.stripedOddTextColor != null &&
+                    this.parentCollapsibleTable.stripedOddTextColor !== '') ?
+                    this.parentCollapsibleTable.stripedOddTextColor :
+                    CollapsibleTableRowComponent.DEFAULT_ROW_TEXT_COLOR;
             }
 
             switch (true) {
                 case this.parentAllowsSelect && this.selected:
-                    this.rowColor = this.selectedRowColor;
+                    this.rowBackgroundColor = this.selectedRowBackgroundColor;
+                    this.rowTextColor = this.selectedRowTextColor;
                     break;
                 case this.isParentStriped:
-                    this.rowColor = this.parentStripedRowColor;
+                    this.rowBackgroundColor = this.parentStripedRowBackgroundColor;
+                    this.rowTextColor = this.parentStripedRowTextColor;
                     break;
             }
 
@@ -157,11 +196,19 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         return this.el.nativeElement.offsetHeight;
     }
 
-    @HostListener('mousedown')
-    mousedown() {
+    @HostListener('mousedown', ['$event'])
+    mousedown(event: MouseEvent) {
         // console.debug('mousedown');
+        event.preventDefault();
         if (this.isBodyRow) {
-            this.rowColor = this.activeRowColor;
+            if (!this.parentAllowsDeselectingRows) {
+                this.prevSelectedRows = this.parentCollapsibleTable.selectedRows;
+                this.parentCollapsibleTable.clearSelectedRows();
+                this.parentCollapsibleTable.deselectAllRows();
+                //this.parentCollapsibleTable.selectRow(this.index);
+            }
+            this.rowBackgroundColor = this.activeRowBackgroundColor;
+            this.rowTextColor = this.activeRowTextColor;
         }
     }
 
@@ -169,58 +216,80 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     mouseup(event?: MouseEvent) {
         // console.debug(`mouseup`);
         if (this.isBodyRow) {
+            // handle selection
             if (this.parentAllowsSelect) {
-                if (!this.selected) {
-                    this.parentCollapsibleTable.addSelectedRow(this.index);
+                if (!this.parentAllowsDeselectingRows) {
+                    this.parentCollapsibleTable.selectRow(this.index);
                 } else {
-                    this.parentCollapsibleTable.removeSelectedRow(this.index);
+                    if (!this.dragSelection) {
+                        this.parentCollapsibleTable.toggleRowSelection(this.index);
+                    }
                 }
-                this.selected = !this.selected;
             }
 
             // check row state
             switch (true) {
                 // parent allows selecting rows and the row is selected
                 case this.parentAllowsSelect && this.selected:
-                    this.rowColor = this.selectedRowColor;
+                    this.rowBackgroundColor = this.selectedRowBackgroundColor;
+                    this.rowTextColor = this.selectedRowTextColor;
                     break;
                 // highlighted
                 case this.isParentHighlight:
-                    this.rowColor = this.parentHighlightRowColor;
+                    this.rowBackgroundColor = this.parentHighlightRowBackgroundColor;
+                    this.rowTextColor = this.parentHighlightRowTextColor;
                     break;
                 // striped
                 case this.isParentStriped:
-                    this.rowColor = this.parentStripedRowColor;
+                    this.rowBackgroundColor = this.parentStripedRowBackgroundColor;
+                    this.rowTextColor = this.parentStripedRowTextColor;
                     break;
                 default:
-                    this.rowColor = undefined;
+                    this.rowBackgroundColor = undefined;
+                    this.rowTextColor = undefined;
                     break;
             }
 
             // select multiple rows using the 'Shift' key
-            if (this.parentAllowsSelectMultipleRows && event != null && event.shiftKey) {
-                let selectedRowsCount = this.parentCollapsibleTable.selectedRows.length;
-                if (selectedRowsCount > 1) {
-                    let firstRowIndex = this.parentCollapsibleTable.selectedRows[0];
-                    let lastRowIndex = this.parentCollapsibleTable.selectedRows[this.parentCollapsibleTable.selectedRows.length - 1];
+            if (this.parentAllowsSelect &&
+                this.parentAllowsSelectMultipleRows &&
+                event != null && event.shiftKey) {
+                if (this.prevSelectedRows != null &&
+                    this.prevSelectedRows.length > 0 &&
+                    this.parentCollapsibleTable.selectedRows.length > 0) {
+                    let rangeSelectedRows = this.prevSelectedRows.concat(this.parentCollapsibleTable.selectedRows);
+                    rangeSelectedRows.sort((a, b) => a - b);
+                    let firstRowIndex = Math.min.apply(null, rangeSelectedRows);
+                    let lastRowIndex = Math.max.apply(null, rangeSelectedRows);
+                    console.debug(`rangeSelectedRows = ${rangeSelectedRows}, firstRowIndex = ${firstRowIndex}, lastRowIndex = ${lastRowIndex}`);
                     this.parentCollapsibleTable.selectRows(firstRowIndex, lastRowIndex);
                 }
             }
 
+            // set dragSelection flag to false. Prevents selection drag behavior
+            this.dragSelection = false;
         }
     }
+
+    private dragSelection = false;
 
     @HostListener('mouseenter')
     mouseenter() {
         // console.debug(`mouseenter`);
         if (this.isBodyRow) {
             switch (true) {
+                // the use is trying to select multiple rows by holding a mouse button
+                case this.parentAllowsSelect && this.parentAllowsSelectMultipleRows && this.parentCollapsibleTable.mouseDownHold:
+                    this.parentCollapsibleTable.selectRow(this.index);
+                    this.dragSelection = true;
+                    break;
                 // parent allows selecting rows and the row is selected
                 case this.parentAllowsSelect && this.selected:
                     break;
                 // highlighted
                 case this.isParentHighlight:
-                    this.rowColor = this.parentHighlightRowColor;
+                    this.rowBackgroundColor = this.parentHighlightRowBackgroundColor;
+                    this.rowTextColor = this.parentHighlightRowTextColor;
                     break;
             }
         }
@@ -233,19 +302,21 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
             // check row state
             switch (true) {
                 // the use is trying to select multiple rows by holding a mouse button
-                case this.parentAllowsSelectMultipleRows && this.parentCollapsibleTable.mouseDownHold:
-                    this.mouseup();
-                    this.updateRow();
+                case this.parentAllowsSelect && this.parentAllowsSelectMultipleRows && this.parentCollapsibleTable.mouseDownHold:
+                    this.parentCollapsibleTable.selectRow(this.index);
+                    this.dragSelection = false;
                     break;
                 // parent allows selecting rows and the row is selected
                 case this.parentAllowsSelect && this.selected:
                     break;
                 // highlighted and stripped
                 case this.isParentHighlight && this.isParentStriped:
-                    this.rowColor = this.parentStripedRowColor;
+                    this.rowBackgroundColor = this.parentStripedRowBackgroundColor;
+                    this.rowTextColor = this.parentStripedRowTextColor;
                     break;
                 default:
-                    this.rowColor = undefined;
+                    this.rowBackgroundColor = undefined;
+                    this.rowTextColor = undefined;
                     break;
             }
         }
