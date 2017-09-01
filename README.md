@@ -1,6 +1,6 @@
-# angular2-collapsible
+# angular-collapsible
 
-An Angular 2 / 4 Materialize CSS collapsible components.
+An Angular 4 Materialize CSS collapsible components.
 
 ## [Demo](https://dmitriiser.github.io/angular2-collapsible-example/)
 
