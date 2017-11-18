@@ -37,9 +37,13 @@ export class CollapsibleService {
     }
 
     collapseAll(): void {
-        this.bodies.forEach((item) => {
-            item.expanded = false;
-            item.expandedState = item.expanded.toString();
+        this.bodies.forEach((collapsibleBodyComponent) => {
+            // set 'expanded' properties of all the CollapsibleBodyComponents to 'false'
+            collapsibleBodyComponent.expanded = false;
+            collapsibleBodyComponent.expandedState = collapsibleBodyComponent.expanded.toString();
+            
+            // emit 'toggleState' event for all the CollapsibleBodyComponents
+            collapsibleBodyComponent.toggleState.emit(false);
         });
     }
 }
