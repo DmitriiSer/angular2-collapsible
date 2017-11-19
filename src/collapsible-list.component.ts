@@ -1,5 +1,6 @@
 import {
   Component,
+  OnInit,
   OnChanges, SimpleChanges,
   Input,
   ContentChildren, QueryList
@@ -48,7 +49,7 @@ import { CollapsibleService } from './collapsible.service';
   `],
   providers: [CollapsibleService]
 })
-export class CollapsibleListComponent implements OnChanges {
+export class CollapsibleListComponent implements OnInit, OnChanges {
   // component options
   //
   // describes the type of the collapsible list: 'accordion' or 'expandable'
@@ -57,6 +58,10 @@ export class CollapsibleListComponent implements OnChanges {
   @ContentChildren(CollapsibleListItemComponent) contentListItems: QueryList<CollapsibleListItemComponent>;
 
   constructor(private collapsibleService: CollapsibleService) { }
+
+  ngOnInit(): void {
+    this.collapsibleService.setType(this.type);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     for (let change in changes) {

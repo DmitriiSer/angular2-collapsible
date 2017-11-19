@@ -1,9 +1,8 @@
 import {
     Component,
-    OnInit, OnDestroy, OnChanges,
-    Input, HostBinding,
-    ElementRef,
-    SimpleChanges
+    OnInit, OnDestroy, OnChanges, SimpleChanges,
+    Input, ElementRef, HostBinding,
+    Output, EventEmitter
 } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -40,6 +39,8 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() expanded: boolean;
 
+    @Output() toggleState = new EventEmitter<boolean>();
+
     constructor(
         private el: ElementRef,
         private collapsibleService: CollapsibleService,
@@ -73,6 +74,9 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
             }
             this.expanded = !this.expanded;
             this.expandedState = this.expanded.toString();
+
+            // emit 'toggleState' event
+            this.toggleState.emit(this.expanded);
         }
     }
 
