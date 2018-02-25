@@ -66,7 +66,6 @@ export class CollapsibleListComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     for (let change in changes) {
       if (change === 'type') {
-        // console.debug('CollapsibleListComponent::ngOnChanges(), currentValue = ' + changes.type.currentValue);
         this.type = changes.type.currentValue;
         this.collapsibleService.setType(this.type);
       }

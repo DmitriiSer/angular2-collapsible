@@ -17,7 +17,6 @@ export class CollapsibleEventService {
 
     // Toggle collapsible item
     toggleCollapsibleItem(event?: CollapsibleEvent) {
-        // console.debug('CollapsibleEventService::toggleCollapsibleItem()');
         this.toggleCollapsibleItemSource.next(event);
     }
 

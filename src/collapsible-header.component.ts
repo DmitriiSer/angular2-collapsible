@@ -23,7 +23,6 @@ export class CollapsibleHeaderComponent {
 
     @HostListener('click')
     click() {
-        // console.debug('CollapsibleHeader::click()');
         this.eventService.toggleCollapsibleItem();
     }
 

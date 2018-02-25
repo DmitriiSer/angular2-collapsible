@@ -47,7 +47,6 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
         private eventService: CollapsibleEventService) { }
 
     ngOnInit() {
-        // console.debug('CollapsibleBody::ngOnInit()');
         this.eventService.toggleCollapsibleItem$.subscribe(() => {
             this.toggleCollapsibleItem();
         });
@@ -63,8 +62,6 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     toggleCollapsibleItem() {
-        // console.debug(`toggleCollapsibleItem()`);
-
         // toggle body's state only if it has any childs
         if (this.hasContent()) {
             if (this.collapsibleService.getType() === 'accordion') {
@@ -85,7 +82,6 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
             for (let key of Object.keys(changes)) {
                 if (key === 'expanded' &&
                     changes.expanded.currentValue != null) {
-                    // console.debug('CollapsibleBody::ngOnChanges(), currentValue = ' + changes.expanded.currentValue);
                     // this.expanded = changes.expanded.currentValue;
                     this.expandedState = this.expanded.toString();
                 }

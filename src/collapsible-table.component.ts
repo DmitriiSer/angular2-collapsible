@@ -176,14 +176,12 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
         private collapsibleService: CollapsibleService) { }
 
     ngOnInit() {
-        // console.debug(`CollapsibleTableComponent::ngOnInit()`);
     }
 
     ngAfterContentInit() {
-        // console.debug(`CollapsibleTableComponent::ngAfterContentInit()`);
         // this.updateFixedTableHeight();
         /*
-        console.debug(`CollapsibleTableComponent::ngOnInit()\n` +
+        LOG(`CollapsibleTableComponent::ngOnInit()\n` +
             `this = {\n` +
             `bordered = ${this.bordered}\n` +
             `borderedHorizontally = ${this.borderedHorizontally}\n` +
@@ -294,7 +292,6 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
                     this.selectRow(this.collapsibleTableRows.length - 1);
                     break;
                 case 0 < index && index <= this.collapsibleTableRows.length - 1:
-                    // console.debug(`selectRow(${index})`);
                     this.addSelectedRow(index);
                     this.collapsibleTableRows.forEach((row, i) => {
                         if (index !== i) {
@@ -313,7 +310,6 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     }
 
     selectRows(firstRowIndex: number, lastRowIndex: number) {
-        // console.debug(`selectRows(${firstRowIndex}, ${lastRowIndex})`);
         if (this.selectMultipleRows &&
             0 < firstRowIndex && firstRowIndex < lastRowIndex &&
             lastRowIndex <= this.collapsibleTableRows.length - 1) {
@@ -331,7 +327,6 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     }
 
     toggleRowSelection(index: number) {
-        // console.debug(`toggleRowSelection(${index})`);
         if (this.select &&
             0 < index && index <= this.collapsibleTableRows.length - 1) {
             this.collapsibleTableRows.forEach((row, i) => {
@@ -351,11 +346,9 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     /*updateFixedTableHeight() {
         this.fixedTableHeight = this.el.nativeElement.offsetHeight + 'px';
         let elem: Element = this.el.nativeElement;
-        console.debug(`updateFixedTableHeight(): this.fixedTableHeight = ${this.fixedTableHeight}`);
         let rowHeights = 0;
         if (this.collapsibleTableRowComponent != null) {
             this.collapsibleTableRowComponent.forEach(row => {
-                console.debug(row.getHeight());
             });
         }
     }*/
@@ -436,7 +429,6 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
 
     @HostListener('keydown', ['$event'])
     keydown(event: KeyboardEvent) {
-        // console.debug(`keydown, ${event.which}`);
         // select a row only if 'select' property is set to 'true'
         if (this.select && this.allowKeyboardNavigation) {
             enum Key {

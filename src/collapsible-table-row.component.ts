@@ -80,7 +80,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         let elem: Element = this.el.nativeElement;
         let tbody: Element = elem.parentElement;
         if (tbody.tagName === 'TBODY') {
-            // console.debug(elem);
             let collapsibleTableRows: NodeListOf<Element> = tbody.querySelectorAll('collapsible-table-row');
             for (let i = 0; i < collapsibleTableRows.length; i++) {
                 let collapsibleTableRow: Element = collapsibleTableRows[i];
@@ -126,7 +125,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     }
 
     ngAfterContentInit(): void {
-        // console.debug(`CollapsibleTableRowComponent::ngAfterContentInit()`);
         this.updateRow();
     }
 
@@ -177,12 +175,19 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     }
 
     private isLeftMouseButton(event: MouseEvent): boolean {
-        // console.debug(`isLeftMouseButton`);
-        if ('button' in event) {
-            return event.button === 0;
+        const button: number = event.button;
+        const which: number = event.which;
+        const target = <HTMLElement>(event.target || event.srcElement || event.currentTarget);
+
+        if (['TR', 'TD'].includes(target.tagName)) {
+            if ('button' in event) {
+                return button === 0;
+            } else {
+                return (which || button) === 1;
+            }
         }
-        let button = event.which || event.button;
-        return button === 1;
+
+        return false;
     }
 
     @HostListener('mousedown', ['$event'])
@@ -190,7 +195,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         // handle only if the Left mouse button pressed
         // and the row is a body row
         if (this.isLeftMouseButton(event) && this.isBodyRow) {
-            // console.debug(`mousedown`);
             if (this.parentCollapsibleTable.noTextSelect) {
                 event.preventDefault();
             }
@@ -211,8 +215,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         // handle only if the Left mouse button pressed
         // and the row is a body row
         if (this.isLeftMouseButton(event) && this.isBodyRow) {
-            // console.debug(`mouseup`);
-
             // handle selection
             if (this.parentAllowsSelect) {
                 if (!this.parentAllowsDeselectingRows) {
@@ -260,24 +262,21 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
                     rangeSelectedRows.sort((a, b) => a - b);
                     let firstRowIndex = Math.min.apply(null, rangeSelectedRows);
                     let lastRowIndex = Math.max.apply(null, rangeSelectedRows);
-                    console.log(`rangeSelectedRows = ${rangeSelectedRows},` +
-                        ` firstRowIndex = ${firstRowIndex}, lastRowIndex = ${lastRowIndex} `);
+
                     this.parentCollapsibleTable.selectRows(firstRowIndex, lastRowIndex);
                 }
             }
 
             // set dragSelection flag to false. Prevents selection drag behavior
             this.dragSelection = false;
-        }
 
-        // focus the collapsible table
-        this.parentCollapsibleTable.focus();
+            // focus the collapsible table
+            this.parentCollapsibleTable.focus();
+        }
     }
 
     @HostListener('mouseenter', ['$event'])
     mouseenter(event: MouseEvent) {
-        // console.debug(`mouseenter`);
-
         // handle only if the row is a body row
         if (this.isBodyRow) {
             switch (true) {
@@ -300,7 +299,6 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
 
     @HostListener('mouseleave', ['$event'])
     mouseleave(event: MouseEvent) {
-        // console.debug(`mouseleave`);
         // handle only if the row is a body row
         if (this.isBodyRow) {
             // check row state
@@ -330,7 +328,7 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
     click(event: MouseEvent) {
         if (this.detail != null) {
             const target = <HTMLElement>(event.target || event.srcElement || event.currentTarget);
-            console.log(target.tagName);
+            
             if (target != null && ['TR', 'TD'].includes(target.tagName)) {
                 this.detail.subject.next();
             }
