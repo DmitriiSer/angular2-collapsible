@@ -326,10 +326,14 @@ export class CollapsibleTableRowComponent implements OnInit, AfterContentInit {
         }
     }
 
-    @HostListener('click')
-    click() {
+    @HostListener('click', ['$event'])
+    click(event: MouseEvent) {
         if (this.detail != null) {
-            this.detail.subject.next();
+            const target = <HTMLElement>(event.target || event.srcElement || event.currentTarget);
+            console.log(target.tagName);
+            if (target != null && ['TR', 'TD'].includes(target.tagName)) {
+                this.detail.subject.next();
+            }
         }
     }
 
