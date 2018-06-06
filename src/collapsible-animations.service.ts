@@ -24,7 +24,7 @@ export class CollapsibleAnimationsService {
                 })),
                 state('true', style({
                     boxShadow: 'inset 0 4px 4px -2px rgb(208, 208, 208), inset 0 -3px 2px -1px rgb(208, 208, 208)',
-                    overflow: 'auto'
+                    overflow: 'inherit'
                 })),
                 transition('* => true',
                     animate(CollapsibleAnimationsService.collapsibleBodyAnimationDuration + ' ' +
