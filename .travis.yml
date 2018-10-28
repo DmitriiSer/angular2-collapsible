@@ -3,15 +3,24 @@ sudo: required
 addons:
   chrome: stable
 node_js:
-- '8.11.4'
+- 8.11.4
 branches:
   only:
-    - master
+  - master
 before_script:
-  - export CHROME_BIN=chromium-browser
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3 # give xvfb some time to start
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 3
 script:
-  - npm run test-ci
-  - npm run build
+- npm run test-ci
+- npm run build
+deploy:
+  provider: npm
+  email: dmitrii.serikov@gmail.com
+  skip_cleanup: true
+  api_key:
+    secure: eU5sn0jpIFqXvVDsYjDMsOs0ZW5hOc45y1A6MxuBROZ5t2eqHbQVZJhzjVGn+2lGXy5WHYYyHCXjVoNrByMhEA+IM1nR53LkhPF05jmG3f0o4WocplJgPhi+0kxHkMEg8U+1ejAvbw6/g55hYT7ch/vW7ceTl54Sb6f4mz7A5A8TZXPpDF135n8AZ5KSLkIUmK/b7Y1yYQVgmbb+KSK730UmQkE+ruq0xbM8UKM7E1QNR2hYtfR6dNVy7kgLvAYrk+OAHB1ocZ7iyZlbKabc7iNxnCPeqNKE+rWcJ6M/6Y9D5M9mu++IZoNx50OhG+FuvZcfbwzvQTI2ktzJQ7hhIJmct/Ux3SyrxPtuKVaN530GYPxxo4sXtLngR0Td85NHcT0kJz1ovijwNM7kDTE4ZzB7oF82BCOG4+/avzu2Zg4R12XL8fReH8EugSRFr2QesMiCXQawBjr9B2p/9tJQJ1atfBj+sterFkYaWo8LkwdKAvE9+SwgfiLj61IUjt2oXPocHa151EmT420/dVs4y0/KlYrhOpO40u2Vbd0hFytY5X3K5REuSHS22uSBFLPGsnXdOWDcCqbQ7NP7SoDxMWwN6z8pQiOJ3QdiYuCDPS6GFv46Gjw81SXFFfnIkAgvo0swsjRJ89r91eovSywSxi74sgeHe6OxOVnwNhqx728=
+  on:
+    tags: true
+    repo: DmitriiSer/angular2-collapsible
