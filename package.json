@@ -9,7 +9,8 @@
     "test-ci": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "zip": "cd ./dist && npm pack"
+    "zip": "cd ./dist && npm pack",
+    "updateVersion": "cd ./projects/angular2-collapsible && npm version patch"
   },
   "private": true,
   "devDependencies": {
