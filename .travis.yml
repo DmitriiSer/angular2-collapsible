@@ -4,15 +4,6 @@ addons:
   chrome: stable
 node_js:
 - 8.11.4
-branches:
-  only:
-  - master
-  - /^v[0-9](\.[0-9]+)(\.[0-9]+)?$/
-before_script:
-- export CHROME_BIN=chromium-browser
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
-- sleep 3
 script:
 - npm run test-ci
 - npm run build
@@ -27,4 +18,3 @@ deploy:
   on:
     tags: true
     repo: DmitriiSer/angular2-collapsible
-    branch: master
