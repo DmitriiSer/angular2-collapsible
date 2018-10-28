@@ -4,11 +4,10 @@ import {
     Input, ElementRef, HostBinding,
     Output, EventEmitter
 } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 
-import { CollapsibleService } from './collapsible.service';
-import { CollapsibleEventService } from './collapsible-event.service';
-import { CollapsibleAnimationsService } from './collapsible-animations.service';
+import { CollapsibleService } from '../services/collapsible.service';
+import { CollapsibleEventService } from '../services/collapsible-event.service';
+import { CollapsibleAnimationsService } from '../services/collapsible-animations.service';
 
 @Component({
     selector: 'collapsible-body',
@@ -53,7 +52,7 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     hasContent(): boolean {
-        for (let child of this.el.nativeElement.childNodes) {
+        for (const child of this.el.nativeElement.childNodes) {
             if ((<Element>child).tagName != null) {
                 return true;
             }
@@ -65,7 +64,7 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
         // toggle body's state only if it has any childs
         if (this.hasContent()) {
             if (this.collapsibleService.getType() === 'accordion') {
-                let tempExpanded = this.expanded;
+                const tempExpanded = this.expanded;
                 this.collapsibleService.collapseAll();
                 this.expanded = tempExpanded;
             }
@@ -79,7 +78,7 @@ export class CollapsibleBodyComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.hasContent()) {
-            for (let key of Object.keys(changes)) {
+            for (const key of Object.keys(changes)) {
                 if (key === 'expanded' &&
                     changes.expanded.currentValue != null) {
                     // this.expanded = changes.expanded.currentValue;

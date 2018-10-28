@@ -1,64 +1,43 @@
 {
   "name": "angular2-collapsible",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "scripts": {
-    "build": "gulp build",
-    "build:watch": "gulp",
-    "lint": "tslint --type-check --project tsconfig.json src/**/*.ts",
-    "test": "tsc && karma start"
+    "ng": "ng",
+    "start": "ng build && npm run zip",
+    "build": "ng build",
+    "test": "ng test --watch=false",
+    "lint": "ng lint",
+    "e2e": "ng e2e",
+    "zip": "cd ./dist && npm pack"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/DmitriiSer/angular2-collapsible"
-  },
-  "author": {
-    "name": "DmitriiSer",
-    "email": "dmitrii.serikov@gmail.com"
-  },
-  "keywords": [
-    "angular"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/DmitriiSer/angular2-collapsible/issues"
-  },
+  "private": true,
   "devDependencies": {
-    "@angular/animations": "^4.0.0",
-    "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
-    "@angular/compiler-cli": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "@angular/platform-browser": "^4.0.0",
-    "@angular/platform-browser-dynamic": "^4.0.0",
-    "@types/jasmine": "2.5.38",
-    "@types/node": "~6.0.60",
-    "codelyzer": "~2.0.0",
-    "core-js": "^2.4.1",
-    "del": "^2.2.2",
-    "gulp": "^3.9.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-rollup": "^2.15.0",
-    "jasmine-core": "~2.5.2",
-    "jasmine-spec-reporter": "~3.2.0",
-    "karma": "~1.4.1",
-    "karma-chrome-launcher": "~2.0.0",
-    "karma-cli": "~1.0.1",
-    "karma-coverage-istanbul-reporter": "^0.2.0",
-    "karma-jasmine": "~1.1.0",
-    "karma-jasmine-html-reporter": "^0.2.2",
-    "node-sass": "^4.5.2",
-    "node-sass-tilde-importer": "^1.0.0",
-    "node-watch": "^0.5.2",
-    "protractor": "~5.1.0",
-    "rollup": "^0.41.6",
-    "run-sequence": "^1.2.2",
-    "rxjs": "^5.5.0",
-    "ts-node": "~2.0.0",
-    "tslint": "~4.5.0",
-    "typescript": "~2.2.2",
-    "zone.js": "^0.8.4"
-  },
-  "engines": {
-    "node": ">=6.0.0"
+    "@angular-devkit/build-angular": "~0.8.0",
+    "@angular-devkit/build-ng-packagr": "~0.8.0",
+    "@angular/animations": "^6.1.0",
+    "@angular/common": "^6.1.0",
+    "@angular/compiler": "^6.1.0",
+    "@angular/compiler-cli": "^6.1.0",
+    "@angular/core": "^6.1.0",
+    "@angular/language-service": "^6.1.0",
+    "@angular/platform-browser": "^6.1.0",
+    "@angular/platform-browser-dynamic": "^6.1.0",
+    "@types/jasmine": "^2.8.9",
+    "codelyzer": "^4.5.0",
+    "jasmine-core": "^3.3.0",
+    "jasmine-spec-reporter": "^4.2.1",
+    "karma": "^3.1.1",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage-istanbul-reporter": "^2.0.4",
+    "karma-jasmine": "^1.1.2",
+    "karma-jasmine-html-reporter": "^1.4.0",
+    "ng-packagr": "^4.1.0",
+    "rxjs": "^6.2.2",
+    "ts-node": "^7.0.1",
+    "tsickle": ">=0.29.0",
+    "tslib": "^1.9.0",
+    "tslint": "^5.11.0",
+    "typescript": "~2.9.2",
+    "zone.js": "^0.8.26"
   }
 }

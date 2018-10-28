@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Subject, Observable } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 
 export class CollapsibleEvent {
     type: string;

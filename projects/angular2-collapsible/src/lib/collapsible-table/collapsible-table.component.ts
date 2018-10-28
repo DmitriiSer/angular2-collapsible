@@ -1,12 +1,12 @@
 import {
     Component,
-    OnInit, OnChanges, SimpleChanges,
+    OnInit, OnChanges, SimpleChanges, AfterContentInit,
     Input, HostBinding, HostListener,
-    ElementRef, ContentChildren, QueryList, AfterContentInit
+    ElementRef, ContentChildren
 } from '@angular/core';
 
-import { CollapsibleTableRowComponent } from './collapsible-table-row.component';
-import { CollapsibleService } from './collapsible.service';
+import { CollapsibleTableRowComponent } from '../collapsible-table-row/collapsible-table-row.component';
+import { CollapsibleService } from '../services/collapsible.service';
 
 @Component({
     selector: 'collapsible-table',
@@ -26,7 +26,7 @@ import { CollapsibleService } from './collapsible.service';
         :host /deep/ tbody /deep/ collapsible-table-row {
             cursor: pointer;
         }
-        
+
         :host /deep/ collapsible-table-row th,
         :host /deep/ collapsible-table-row td {
             border-radius: 0;
@@ -57,7 +57,7 @@ import { CollapsibleService } from './collapsible.service';
         :host(.noTextSelect) /deep/ collapsible-table-row th,
         :host(.noTextSelect) /deep/ collapsible-table-row td {
             user-select: none;
-        }        
+        }
     `],
     providers: [
         CollapsibleService
@@ -167,7 +167,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     @Input()
     @HostBinding('attr.type') type: 'accordion' | 'expandable' = 'accordion';
 
-    @ContentChildren(CollapsibleTableRowComponent) collapsibleTableRows: QueryList<CollapsibleTableRowComponent>;
+    @ContentChildren(CollapsibleTableRowComponent) collapsibleTableRows: Array<CollapsibleTableRowComponent>;
 
     mouseDownHold = false;
 
@@ -206,7 +206,7 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        for (let change in changes) {
+        for (const change in changes) {
             if (changes.hasOwnProperty(change)) {
                 if (this.collapsibleTableRows != null) {
                     switch (change) {
@@ -439,12 +439,13 @@ export class CollapsibleTableComponent implements OnInit, OnChanges, AfterConten
             }
 
             let index = 1;
-            if (Key[event.which] != null) {
+            const whichKey = event['which'];
+            if (Key[whichKey] != null) {
 
                 event.preventDefault();
                 event.stopPropagation();
 
-                switch (event.which) {
+                switch (whichKey) {
                     case Key.arrowUp:
                         // select previous row
                         if (this.selectedRows.length > 0) {

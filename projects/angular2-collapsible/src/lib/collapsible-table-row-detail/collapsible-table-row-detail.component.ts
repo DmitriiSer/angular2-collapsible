@@ -2,14 +2,14 @@ import {
     Component,
     OnInit, AfterViewInit,
     Input,
-    ViewChildren, QueryList
+    ViewChildren
 } from '@angular/core';
 
-import { CollapsibleBodyComponent } from './collapsible-body.component';
+import { CollapsibleBodyComponent } from '../collapsible-body/collapsible-body.component';
 
-import { CollapsibleService } from './collapsible.service';
+import { CollapsibleService } from '../services/collapsible.service';
 
-import { Subject } from 'rxjs/Rx';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'collapsible-table-row-detail',
@@ -26,7 +26,7 @@ import { Subject } from 'rxjs/Rx';
         :host {
             display: table-row;
         }
-        
+
         :host collapsible-body,
         :host td {
             padding: 0;
@@ -38,7 +38,7 @@ export class CollapsibleTableRowDetailComponent implements OnInit, AfterViewInit
 
     @Input() expanded: boolean;
 
-    @ViewChildren(CollapsibleBodyComponent) viewListBodies: QueryList<CollapsibleBodyComponent>;
+    @ViewChildren(CollapsibleBodyComponent) viewListBodies: Array<CollapsibleBodyComponent>;
 
     constructor(private collapsibleService: CollapsibleService) { }
 

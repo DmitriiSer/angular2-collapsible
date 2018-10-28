@@ -1,0 +1,40 @@
+{
+  "name": "angular2-collapsible",
+  "version": "0.6.0",
+  "description": "Angular 2+ Materialize CSS collapsible components",
+  "author": {
+    "name": "DmitriiSer",
+    "email": "dmitrii.serikov@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DmitriiSer/angular2-collapsible"
+  },
+  "bugs": {
+    "url": "https://github.com/DmitriiSer/angular2-collapsible/issues"
+  },
+  "keywords": [
+    "angular",
+    "angular2",
+    "angular 2",
+    "angular4",
+    "angular 4",
+    "angular5",
+    "angular 5",
+    "angular6",
+    "angular 6",
+    "materialize",
+    "materialize-css",
+    "collapsible",
+    "collapsibles"
+  ],
+  "license": "MIT",
+  "module": "angular2-collapsible.js",
+  "typings": "angular2-collapsible.d.ts",
+  "peerDependencies": {
+    "@angular/animations": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "materialize-css": ">=1.0.0"
+  }
+}

@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 
-import { CollapsibleEventService } from './collapsible-event.service';
+import { CollapsibleEventService } from '../services/collapsible-event.service';
 
 @Component({
     selector: 'collapsible-header',

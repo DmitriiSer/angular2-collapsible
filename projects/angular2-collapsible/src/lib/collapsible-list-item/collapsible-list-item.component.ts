@@ -1,14 +1,13 @@
 import {
     Component,
     AfterContentInit,
-    Input,
-    ContentChildren, QueryList
+    ContentChildren
 } from '@angular/core';
 
-import { CollapsibleBodyComponent } from './collapsible-body.component';
+import { CollapsibleBodyComponent } from '../collapsible-body/collapsible-body.component';
 
-import { CollapsibleService } from './collapsible.service';
-import { CollapsibleEventService } from './collapsible-event.service';
+import { CollapsibleService } from '../services/collapsible.service';
+import { CollapsibleEventService } from '../services/collapsible-event.service';
 
 @Component({
     selector: 'collapsible-list-item',
@@ -20,7 +19,7 @@ import { CollapsibleEventService } from './collapsible-event.service';
 })
 export class CollapsibleListItemComponent implements AfterContentInit {
 
-    @ContentChildren(CollapsibleBodyComponent) contentListBodies: QueryList<CollapsibleBodyComponent>;
+    @ContentChildren(CollapsibleBodyComponent) contentListBodies: Array<CollapsibleBodyComponent>;
 
     constructor(private collapsibleService: CollapsibleService) { }
 

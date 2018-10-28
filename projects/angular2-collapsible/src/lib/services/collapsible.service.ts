@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { CollapsibleTableComponent } from './collapsible-table.component';
-import { CollapsibleHeaderComponent } from './collapsible-header.component';
-import { CollapsibleBodyComponent } from './collapsible-body.component';
+import { CollapsibleTableComponent } from '../collapsible-table/collapsible-table.component';
+import { CollapsibleHeaderComponent } from '../collapsible-header/collapsible-header.component';
+import { CollapsibleBodyComponent } from '../collapsible-body/collapsible-body.component';
 
 @Injectable()
 export class CollapsibleService {
@@ -41,7 +41,7 @@ export class CollapsibleService {
             // set 'expanded' properties of all the CollapsibleBodyComponents to 'false'
             collapsibleBodyComponent.expanded = false;
             collapsibleBodyComponent.expandedState = collapsibleBodyComponent.expanded.toString();
-            
+
             // emit 'toggleState' event for all the CollapsibleBodyComponents
             collapsibleBodyComponent.toggleState.emit(false);
         });

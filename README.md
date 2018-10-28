@@ -1,12 +1,10 @@
 # angular-collapsible
 
-An Angular 4 Materialize CSS collapsible components.
+An Angular 2+ Materialize CSS collapsible components.
 
 ## [Demo](https://dmitriiser.github.io/angular2-collapsible-example/)
 
-## Installation
-
-Prerequisites:
+## Dependencies
 
 * @angular/animations
     ```bash
@@ -20,13 +18,6 @@ Prerequisites:
     ```bash
     @import '~materialize-css/dist/css/materialize.min.css';
     ```
-
-
-To install this library, run:
-
-```bash
-$ npm install angular2-collapsible --save
-```
 
 ## Consuming the library
 
