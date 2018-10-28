@@ -1,4 +1,5 @@
 # angular-collapsible
+[![Build Status](https://travis-ci.org/DmitriiSer/angular2-collapsible.svg?branch=master)](https://travis-ci.org/DmitriiSer/angular2-collapsible)
 
 An Angular 2+ Materialize CSS collapsible components.
 
