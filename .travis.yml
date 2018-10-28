@@ -16,6 +16,8 @@ before_script:
 script:
 - npm run test-ci
 - npm run build
+before_deploy:  
+- cd dist
 deploy:
   provider: npm
   email: dmitrii.serikov@gmail.com
