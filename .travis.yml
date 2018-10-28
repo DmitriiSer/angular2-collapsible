@@ -1,7 +1,12 @@
 language: node_js
-sudo: false
+sudo: required
+addons:
+  chrome: stable
 node_js:
 - '8.11.4'
+branches:
+  only:
+    - master
 before_script:
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
