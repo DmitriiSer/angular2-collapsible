@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng build && npm run zip",
-    "build": "ng build",
+    "start": "npm run build && npm run zip",
+    "build": "ng build && cpx README.md dist",
     "test": "ng test",
     "test-ci": "ng test --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
@@ -27,6 +27,7 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@types/jasmine": "^2.8.9",
     "codelyzer": "^4.5.0",
+    "cpx": "^1.5.0",
     "jasmine-core": "^3.3.0",
     "jasmine-spec-reporter": "^4.2.1",
     "karma": "^3.1.1",
