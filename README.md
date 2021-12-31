@@ -7,10 +7,11 @@ Angular collapsible component styled with Materialize CSS.
 
 ## Compatibility chart
 
-| angular-collapsible | Angular |
-|---------------------|---------|
-| 0.0.x | >=2.x.x <5.x.x |
-| 0.6.x | 6.x.x |
+| angular-collapsible    | Angular        | Node.js  |
+|------------------------|----------------|----------|
+| <=0.0.53               | >=2.x.x <5.x.x | 8.9.x    |
+| 0.6.x                  | >=6.x.x <8.x.x | >=8.9.x  |
+| ?                      | >=8.x.x        | >=10.9.x |
 
 ## Dependencies
 
