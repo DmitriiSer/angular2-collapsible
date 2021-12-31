@@ -19,16 +19,18 @@ Angular collapsible component styled with Materialize CSS.
     ```bash
     npm install materialize-css --save
     ```
-    open `src/styles.css` and add this line:
-    ```bash
-    @import '~materialize-css/dist/css/materialize.min.css';
-    ```
+
 * If you are using an older version of Angular, you may have to manually install `@angular/animations` package
     ```bash
     npm install @angular/animations --save
     ```
 
 ## Consuming the library
+
+Open `src/styles.css` and add the follwoing line to enable [Materialize CSS](https://materializecss.com/) styles:
+```bash
+@import '~materialize-css/dist/css/materialize.min.css';
+```
 
 You can import the library in any Angular application by running:
 
