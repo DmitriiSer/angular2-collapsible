@@ -1,9 +1,16 @@
 # angular-collapsible
 [![Build Status](https://travis-ci.org/DmitriiSer/angular2-collapsible.svg?branch=master)](https://travis-ci.org/DmitriiSer/angular2-collapsible)
 
-An Angular 2+ Materialize CSS collapsible components.
+Angular collapsible component styled with Materialize CSS.
 
 ## [Demo](https://dmitriiser.github.io/angular2-collapsible-example/)
+
+## Compatibility chart
+
+| angular-collapsible | Angular |
+|---------------------|---------|
+| 0.0.x | >=2.x.x <5.x.x |
+| 0.6.x | 6.x.x |
 
 ## Dependencies
 
