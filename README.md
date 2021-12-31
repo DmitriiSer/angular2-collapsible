@@ -11,17 +11,17 @@ Angular collapsible component styled with Materialize CSS.
 |------------------------|----------------|----------|
 | <=0.0.53               | >=2.x.x <5.x.x | 8.9.x    |
 | 0.6.x                  | >=6.x.x <8.x.x | >=8.9.x  |
-| ?                      | >=8.x.x        | >=10.9.x |
+| 0.8.0                  | >=8.x.x        | >=10.9.x |
 
 ## Dependencies
 
 * @angular/animations
     ```bash
-    $ npm install @angular/animations --save
+    npm install @angular/animations --save
     ```
 * materialize-css
     ```bash
-    $ npm install materialize-css --save
+    npm install materialize-css --save
     ```
     open src/styles.css and add this line:
     ```bash
