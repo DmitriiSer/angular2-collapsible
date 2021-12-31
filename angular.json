@@ -4,9 +4,9 @@
   "newProjectRoot": "projects",
   "projects": {
     "angular2-collapsible": {
+      "projectType": "library",
       "root": "projects/angular2-collapsible",
       "sourceRoot": "projects/angular2-collapsible/src",
-      "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {

@@ -1,7 +1,7 @@
 {
   "name": "angular2-collapsible",
-  "version": "0.6.1",
-  "description": "Angular 2+ Materialize CSS collapsible components",
+  "version": "0.8.0",
+  "description": "Angular collapsible component styled with Materialize CSS.",
   "author": {
     "name": "DmitriiSer",
     "email": "dmitrii.serikov@gmail.com"
@@ -23,6 +23,10 @@
     "angular 5",
     "angular6",
     "angular 6",
+    "angular7",
+    "angular 7",
+    "angular8",
+    "angular 8",
     "materialize",
     "materialize-css",
     "collapsible",
@@ -32,9 +36,9 @@
   "module": "angular2-collapsible.js",
   "typings": "angular2-collapsible.d.ts",
   "peerDependencies": {
-    "@angular/animations": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
-    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/animations": "^8.2.14",
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
     "materialize-css": ">=1.0.0"
   }
 }
