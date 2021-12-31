@@ -7,25 +7,25 @@ Angular collapsible component styled with Materialize CSS.
 
 ## Compatibility chart
 
-| angular-collapsible    | Angular        | Node.js  |
-|------------------------|----------------|----------|
-| <=0.0.53               | >=2.x.x <5.x.x | 8.9.x    |
-| 0.6.x                  | >=6.x.x <8.x.x | >=8.9.x  |
-| 0.8.0                  | >=8.x.x        | >=10.9.x |
+| angular-collapsible    | Angular           | Node.js   |
+|------------------------|-------------------|-----------|
+| <=0.0.53               | >=2.x.x <5.x.x    | 8.9.x     |
+| 0.6.x                  | >=6.x.x <8.x.x    | >=8.9.x   |
+| 0.8.0                  | >=8.x.x           | >=10.9.x  |
 
 ## Dependencies
 
-* @angular/animations
-    ```bash
-    npm install @angular/animations --save
-    ```
 * materialize-css
     ```bash
     npm install materialize-css --save
     ```
-    open src/styles.css and add this line:
+    open `src/styles.css` and add this line:
     ```bash
     @import '~materialize-css/dist/css/materialize.min.css';
+    ```
+* If you are using an older version of Angular, you may have to manually install `@angular/animations` package
+    ```bash
+    npm install @angular/animations --save
     ```
 
 ## Consuming the library
@@ -33,7 +33,7 @@ Angular collapsible component styled with Materialize CSS.
 You can import the library in any Angular application by running:
 
 ```bash
-$ npm install angular2-collapsible
+npm install angular2-collapsible
 ```
 
 and then from your Angular `AppModule`:
@@ -95,7 +95,7 @@ OR for a table with collapsible row details
 ```xml
 <h1>{{title}}</h1>
 
-<collapsible-table [type]="'accordion'" bordered>
+<collapsible-table [type]="'accordion'" [bordered]="true">
 
   <thead>
     <collapsible-table-row>
